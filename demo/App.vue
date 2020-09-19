@@ -40,9 +40,9 @@
       <pre
         class="language-bash"
       ><code class="language-bash"><span class="token comment"># npm</span>
-<span class="token function">npm</span> i vue-concise-carousel
+<span class="token function">npm</span> i @jambonn/vue-concise-carousel
 <span class="token comment"># yarn</span>
-<span class="token function">yarn</span> <span class="token function">add</span> vue-concise-carousel</code></pre>
+<span class="token function">yarn</span> <span class="token function">add</span> @jambonn/vue-concise-carousel</code></pre>
     </div>
     <div id="quick-start" class="container">
       <h2 style="border-bottom: 1px solid #eaecef; padding-bottom: 0.3em">
