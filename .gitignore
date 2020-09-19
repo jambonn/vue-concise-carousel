@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
-/dist
+dist/demo.html
+dist/bit
+/gh-pages
 
 
 # local env files

@@ -514,7 +514,7 @@ export default {
      * */
     getNextPage() {
       if (this.currentPage < this.pageCount - 1) {
-        return this.currentPage + 1
+        return +this.currentPage + 1
       }
       return this.loop ? 0 : this.currentPage
     },
@@ -638,7 +638,7 @@ export default {
         return 'auto'
       }
 
-      const slideOffset = this.currentPerPage * (this.currentPage + 1) - 1
+      const slideOffset = this.currentPerPage * (+this.currentPage + 1) - 1
       const maxSlideHeight = [...Array(this.currentPerPage)]
         .map((_, idx) => this.getSlide(slideOffset + idx))
         .reduce(
