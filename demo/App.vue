@@ -69,8 +69,8 @@
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>template</span><span class="token punctuation">&gt;</span></span>
 
 <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>script</span><span class="token punctuation">&gt;</span></span><span class="token script"><span class="token language-javascript">
-  <span class="token keyword">import</span> { Carousel, Slide } <span class="token keyword">from</span> <span class="token string">'vue-concise-carousel'</span>
-  <span class="token keyword">import</span> <span class="token string">'vue-concise-carousel/dist/vue-concise-carousel.css'</span>
+  <span class="token keyword">import</span> { Carousel, Slide } <span class="token keyword">from</span> <span class="token string">'@jambonn/vue-concise-carousel'</span>
+  <span class="token keyword">import</span> <span class="token string">'@jambonn/vue-concise-carousel/dist/vue-concise-carousel.css'</span>
 
   <span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
     name<span class="token punctuation">:</span> <span class="token string">'ConciseCarouselComponent'</span><span class="token punctuation">,</span>

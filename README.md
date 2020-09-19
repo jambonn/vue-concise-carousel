@@ -2,7 +2,7 @@
 > Vue Concise Carousel is SSR and CSR friendly.
 > An upgraded version from [vue-carousel](https://github.com/SSENSE/vue-carousel)
 
-**[Full examples](https://jambonn.github.io/vue-concise-carousel/#example)**
+**[Full examples](https://jambonn.github.io/vue-concise-carousel/#example-full)**
 
 ## Table of Contents
 - [Installation](#installation)
@@ -16,13 +16,13 @@
 ## Installation
 
 ``` bash
-npm install vue-concise-carousel
+npm install @jambonn/vue-concise-carousel
 ```
 
 or if you prefer yarn
 
 ``` bash
-yarn add vue-concise-carousel
+yarn add @jambonn/vue-concise-carousel
 ```
 
 ## Usage
@@ -33,7 +33,8 @@ You may install Vue Concise Carousel globally:
 
 ``` js
 import Vue from 'vue';
-import VueConciseCarousel from 'vue-concise-carousel';
+import VueConciseCarousel from '@jambonn/vue-concise-carousel';
+import '@jambonn/vue-concise-carousel/dist/vue-slick-carousel.css'
 
 Vue.use(VueConciseCarousel);
 ```
@@ -44,7 +45,8 @@ This will make **&lt;carousel&gt;** and **&lt;slide&gt;** available to all compo
 Include the carousel directly into your component using import:
 
 ``` js
-import { Carousel, Slide } from 'vue-concise-carousel';
+import { Carousel, Slide } from '@jambonn/vue-concise-carousel';
+import '@jambonn/vue-concise-carousel/dist/vue-slick-carousel.css'
 
 export default {
   ...
