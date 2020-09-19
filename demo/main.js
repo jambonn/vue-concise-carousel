@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
-import { Carousel, Slide } from '../src/index'
+import Carousel from '../src/Carousel'
+import Slide from '../src/Slide'
 
 Vue.config.productionTip = false
 

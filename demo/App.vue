@@ -78,6 +78,14 @@
   <span class="token punctuation">}</span>
 </span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>script</span><span class="token punctuation">&gt;</span></span></code></pre>
     </div>
+    <div id="example-full" class="container">
+      <h2 style="border-bottom: 1px solid #eaecef; padding-bottom: 0.3em">
+        Examples
+      </h2>
+      <example-basic />
+      <example-responsive />
+      <example-scroll-per-page />
+    </div>
     <div id="license" class="container">
       <h2 style="border-bottom: 1px solid #eaecef; padding-bottom: 0.3em">
         License
@@ -95,8 +103,12 @@
   </div>
 </template>
 <script>
+import ExampleBasic from './ExampleBasic'
+import ExampleResponsive from './ExampleResponsive'
+import ExampleScrollPerPage from './ExampleScrollPerPage'
 export default {
   name: 'App',
+  components: { ExampleBasic, ExampleResponsive, ExampleScrollPerPage },
   data() {
     return {
       slideCount: 6,
