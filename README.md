@@ -10,6 +10,7 @@
 - [Configuration](#configuration)
 - [Events](#events)
 - [Methods](#methods)
+- [Slots](#slots)
 - [Development](#compiles-and-hot-reloads-for-development)
 - [License](#license)
 
@@ -36,7 +37,8 @@ import Vue from 'vue';
 import VueConciseCarousel from '@jambonn/vue-concise-carousel';
 import '@jambonn/vue-concise-carousel/dist/vue-slick-carousel.css'
 
-Vue.use(VueConciseCarousel);
+Vue.component('carousel', VueConciseCarousel.Carousel);
+Vue.component('slide', VueConciseCarousel.Slide);
 ```
 This will make **&lt;carousel&gt;** and **&lt;slide&gt;** available to all components within your Vue app.
 
@@ -179,6 +181,52 @@ To listen for the 'slideclick' event you can do the following:
 | goToPage        | go to slide index                                                    | -       | slide:Number - slide number              | null    |
 | restartAutoplay | restarts the autoplay                                                | -       |                                          |         |
 | pauseAutoplay   | pauses the autoplay                                                  | -       |                                          |         |
+
+## Slots
+
+### Customizing Navigation & Pagination
+
+```html
+<template>
+  <Carousel ref="carousel">
+      <Slide>
+        Slide 1 Content
+      </Slide>
+      <Slide>
+        Slide 2 Content
+      </Slide>
+      <div class="custom-navigation" slot="navigation">
+        <button type="button" @click="onChangeNavigation('backward')">Back</button>
+        <button type="button" @click="onChangeNavigation('forward')">Next</button>
+      </div>
+      <ul class="custom-pagination" slot="pagination">
+        <li @click="onChangePagination(1)">1</li>
+        <li @click="onChangePagination(1)">2</li>
+      </ul>
+  </Carousel>
+</template>
+<script>
+  export default {
+    methods: {
+      onChangePagination(index) {
+        this.$refs.carousel.goToPage(index, 'pagination')
+      },
+      onChangeNavigation(direction) {
+        this.$refs.carousel.handleNavigation(direction)
+      },
+    },
+  }
+</script>
+```
+
+### All Slots
+
+| Name         | Description                           | Method                                       |
+| ------------ | ------------------------------------- | -------------------------------------------- |
+| pagination   | Custom pagination                     | goToPage(currentSlide: Number)               |
+|              |                                       |                                              |
+| navigation   | Custom navigation                     | handleNavigation(direction: String)          |
+|              |                                       |                                              |
 
 ### Compiles and hot-reloads for development
 ``` bash

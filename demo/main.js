@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
-import Carousel from '../src/Carousel'
-import Slide from '../src/Slide'
+import VueConciseCarousel from '../src/VueConciseCarousel'
 
 Vue.config.productionTip = false
 
-Vue.component(Carousel.name, Carousel)
-Vue.component(Slide.name, Slide)
+Vue.component('carousel', VueConciseCarousel.Carousel)
+Vue.component('slide', VueConciseCarousel.Slide)
 
 new Vue({
   render: h => h(App),
