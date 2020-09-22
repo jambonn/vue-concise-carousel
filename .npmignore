@@ -12,7 +12,7 @@ yarn-error.log
 .browserslistrc
 .idea
 .vscode
-node_modules
+node_modules/
 dist/demo.html
 dist/bit
 src/
