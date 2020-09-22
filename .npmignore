@@ -10,6 +10,8 @@ yarn-error.log
 .prettierrc
 .eslintrc.js
 .browserslistrc
+.idea
+.vscode
 dist/demo.html
 dist/bit
 src/
