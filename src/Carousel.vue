@@ -26,9 +26,8 @@
       </div>
     </div>
 
-    <slot name="navigation" v-if="navigationEnabled">
+    <slot name="navigation" v-if="navigationEnabled && isNavigationRequired">
       <navigation
-        v-if="isNavigationRequired"
         :clickTargetSize="navigationClickTargetSize"
         :nextLabel="navigationNextLabel"
         :prevLabel="navigationPrevLabel"

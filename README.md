@@ -188,7 +188,7 @@ To listen for the 'slideclick' event you can do the following:
 
 ```html
 <template>
-  <Carousel ref="carousel">
+  <Carousel ref="carousel" @page-change="handlePageChange">
       <Slide>
         Slide 1 Content
       </Slide>
@@ -196,18 +196,28 @@ To listen for the 'slideclick' event you can do the following:
         Slide 2 Content
       </Slide>
       <div class="custom-navigation" slot="navigation">
-        <button type="button" @click="onChangeNavigation('backward')">Back</button>
-        <button type="button" @click="onChangeNavigation('forward')">Next</button>
+        <button type="button" :disabled="currentPage > 0" @click="onChangeNavigation('backward')">Back</button>
+        <button type="button" :disabled="!isEnableForward" @click="onChangeNavigation('forward')">Next</button>
       </div>
       <ul class="custom-pagination" slot="pagination">
         <li @click="onChangePagination(1)">1</li>
-        <li @click="onChangePagination(1)">2</li>
+        <li @click="onChangePagination(2)">2</li>
       </ul>
   </Carousel>
 </template>
 <script>
   export default {
+    data() {
+      return {
+        currentPage: 0,
+        isEnableForward: true,
+      }
+    },
     methods: {
+      handlePageChange(currentPage) {
+        this.currentPage = currentPage
+        this.isEnableForward = this.$refs.carousel.canAdvanceForward
+      },
       onChangePagination(index) {
         this.$refs.carousel.goToPage(index, 'pagination')
       },

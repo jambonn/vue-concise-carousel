@@ -97,7 +97,7 @@ export default {
 }
 
 .VueCarousel-navigation-button:focus {
-  outline: 1px solid lightblue;
+  outline: none;
 }
 
 .VueCarousel-navigation-next {
