@@ -3965,7 +3965,7 @@ if (typeof window !== 'undefined') {
 // Indicate to webpack that this file can be concatenated
 /* harmony default export */ var setPublicPath = (null);
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dba8bbb6-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/Carousel.vue?vue&type=template&id=3152a6ab&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"615553bc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/Carousel.vue?vue&type=template&id=3152a6ab&
 var render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"VueCarousel",class:{ 'VueCarousel--reverse': _vm.paginationPosition === 'top' }},[_c('div',{ref:"VueCarousel-wrapper",staticClass:"VueCarousel-wrapper"},[_c('div',{ref:"VueCarousel-inner",class:[
         'VueCarousel-inner',
         { 'VueCarousel-inner--center': _vm.isCenterModeEnabled } ],style:({
@@ -4310,7 +4310,7 @@ var debounce = function debounce(func, wait, immediate) {
 };
 
 /* harmony default export */ var utils_debounce = (debounce);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dba8bbb6-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/Navigation.vue?vue&type=template&id=65088112&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"615553bc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/Navigation.vue?vue&type=template&id=65088112&scoped=true&
 var Navigationvue_type_template_id_65088112_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"VueCarousel-navigation"},[_c('button',{staticClass:"VueCarousel-navigation-button VueCarousel-navigation-prev",class:{ 'VueCarousel-navigation--disabled': !_vm.canAdvanceBackward },style:(("padding: " + _vm.clickTargetSize + "px; margin-right: -" + _vm.clickTargetSize + "px;")),attrs:{"type":"button","aria-label":"Previous page","tabindex":_vm.canAdvanceBackward ? 0 : -1},domProps:{"innerHTML":_vm._s(_vm.prevLabel)},on:{"click":function($event){$event.preventDefault();return _vm.triggerPageAdvance('backward')}}}),_c('button',{staticClass:"VueCarousel-navigation-button VueCarousel-navigation-next",class:{ 'VueCarousel-navigation--disabled': !_vm.canAdvanceForward },style:(("padding: " + _vm.clickTargetSize + "px; margin-left: -" + _vm.clickTargetSize + "px;")),attrs:{"type":"button","aria-label":"Next page","tabindex":_vm.canAdvanceForward ? 0 : -1},domProps:{"innerHTML":_vm._s(_vm.nextLabel)},on:{"click":function($event){$event.preventDefault();return _vm.triggerPageAdvance('forward')}}})])}
 var Navigationvue_type_template_id_65088112_scoped_true_staticRenderFns = []
 
@@ -4528,7 +4528,7 @@ var component = normalizeComponent(
 )
 
 /* harmony default export */ var Navigation = (component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dba8bbb6-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/Pagination.vue?vue&type=template&id=f6edb9f4&scoped=true&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"615553bc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/Pagination.vue?vue&type=template&id=f6edb9f4&scoped=true&
 var Paginationvue_type_template_id_f6edb9f4_scoped_true_render = function () {
 var _obj;
 var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.carousel.pageCount > 1),expression:"carousel.pageCount > 1"}],staticClass:"VueCarousel-pagination",class:( _obj = {}, _obj[("VueCarousel-pagination--" + _vm.paginationPositionModifierName)] = _vm.paginationPositionModifierName, _obj )},[_c('div',{staticClass:"VueCarousel-dot-container",style:(_vm.dotContainerStyle),attrs:{"role":"tablist"}},_vm._l((_vm.paginationCount),function(page,index){return _c('button',{key:(page + "_" + index),staticClass:"VueCarousel-dot",class:{ 'VueCarousel-dot--active': _vm.isCurrentDot(index) },style:(_vm.dotStyle(index)),attrs:{"aria-hidden":"false","role":"tab","title":_vm.getDotTitle(index),"value":_vm.getDotTitle(index),"aria-label":_vm.getDotTitle(index),"aria-selected":_vm.isCurrentDot(index) ? 'true' : 'false'},on:{"click":function($event){return _vm.goToPage(index)}}})}),0)])}
@@ -5661,7 +5661,7 @@ var Carousel_component = normalizeComponent(
 )
 
 /* harmony default export */ var Carousel = (Carousel_component.exports);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"dba8bbb6-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/Slide.vue?vue&type=template&id=00232a37&
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"615553bc-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./src/Slide.vue?vue&type=template&id=00232a37&
 var Slidevue_type_template_id_00232a37_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"VueCarousel-slide",class:{
     'VueCarousel-slide-active': _vm.isActive,
     'VueCarousel-slide-center': _vm.isCenter,

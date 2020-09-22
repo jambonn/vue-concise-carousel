@@ -35,7 +35,7 @@ You may install Vue Concise Carousel globally:
 ``` js
 import Vue from 'vue';
 import VueConciseCarousel from '@jambonn/vue-concise-carousel';
-import '@jambonn/vue-concise-carousel/dist/vue-slick-carousel.css'
+import '@jambonn/vue-concise-carousel/dist/vue-concise-carousel.css'
 
 Vue.component('carousel', VueConciseCarousel.Carousel);
 Vue.component('slide', VueConciseCarousel.Slide);
@@ -48,7 +48,7 @@ Include the carousel directly into your component using import:
 
 ``` js
 import { Carousel, Slide } from '@jambonn/vue-concise-carousel';
-import '@jambonn/vue-concise-carousel/dist/vue-slick-carousel.css'
+import '@jambonn/vue-concise-carousel/dist/vue-concise-carousel.css'
 
 export default {
   ...
