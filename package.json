@@ -1,6 +1,6 @@
 {
   "name": "@jambonn/vue-concise-carousel",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Vue Concise Carousel is SSR and CSR friendly",
   "keywords": [
     "vue",
