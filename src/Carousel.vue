@@ -569,12 +569,12 @@ export default {
           data: true,
         }
         if (this.adjustableHeight) {
-          config = {
-            ...config,
+          const configAdjustableHeight = {
             childList: true,
             subtree: true,
             characterData: true,
           }
+          config = Object.assign({}, config, configAdjustableHeight)
         }
         this.mutationObserver = new MutationObserver(() => {
           this.$nextTick(() => {
