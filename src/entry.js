@@ -15,6 +15,20 @@ const plugin = {
   install,
 }
 
+// To auto-install on non-es builds, when vue is found
+// eslint-disable-next-line no-redeclare
+/* global window, global */
+if (import.meta.env.MODE === 'cjs:iife') {
+  let GlobalVue = null
+  if (typeof window !== 'undefined') {
+    GlobalVue = window.Vue
+  } else if (typeof global !== 'undefined') {
+    GlobalVue = global.Vue
+  }
+  if (GlobalVue) {
+    GlobalVue.use(plugin)
+  }
+}
 // Default export is library as a whole, registered via Vue.use()
 export default plugin
 

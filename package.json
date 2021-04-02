@@ -1,6 +1,6 @@
 {
   "name": "@jambonn/vue-concise-carousel",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Vue Concise Carousel is SSR and CSR friendly",
   "keywords": [
     "vue",
@@ -23,7 +23,9 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "yarn build:es & yarn build:cjs:iife",
+    "build:es": "vite build --mode es",
+    "build:cjs:iife": "vite build --mode cjs:iife",
     "serve": "vite preview"
   },
   "main": "dist/vue-concise-carousel.cjs.js",
