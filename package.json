@@ -1,0 +1,56 @@
+{
+  "name": "@jambonn/vue-concise-carousel",
+  "version": "2.0.0",
+  "description": "Vue Concise Carousel is SSR and CSR friendly",
+  "keywords": [
+    "vue",
+    "concise",
+    "carousel",
+    "slider",
+    "ssr",
+    "csr",
+    "pwa"
+  ],
+  "homepage": "https://jambonn.github.io/vue-concise-carousel/",
+  "bugs": {
+    "url": "https://github.com/jambonn/vue-concise-carousel/issues"
+  },
+  "license": "MIT",
+  "author": "Jambon <hoaeuro93@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jambonn/vue-concise-carousel.git"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "main": "dist/vue-concise-carousel.cjs.js",
+  "browser": "dist/vue-concise-carousel.es.js",
+  "module": "dist/vue-concise-carousel.es.js",
+  "unpkg": "dist/vue-concise-carousel.iife.js",
+  "files": [
+    "dist"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.1.5",
+    "@vue/compiler-sfc": "^3.0.5",
+    "@vue/eslint-config-prettier": "^6.0.0",
+    "eslint": "^7.23.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-vue": "^7.8.0",
+    "prettier": "^2.2.1",
+    "vite": "^2.1.5",
+    "vue": "^3.0.11"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.11"
+  },
+  "engines": {
+    "node": ">=12"
+  }
+}
