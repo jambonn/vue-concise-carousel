@@ -1046,6 +1046,10 @@ export default {
       currentPage,
       canAdvanceForward,
       canAdvanceBackward,
+      restartAutoplay,
+      pauseAutoplay,
+      computeCarouselHeight,
+      getCarouselHeight,
       handleNavigation,
       goToPage,
     }
