@@ -1,9 +1,10 @@
 {
   "name": "@jambonn/vue-concise-carousel",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "Vue Concise Carousel is SSR and CSR friendly",
   "keywords": [
     "vue",
+    "vue 3",
     "concise",
     "carousel",
     "slider",
@@ -23,17 +24,17 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "yarn build:es & yarn build:cjs:iife",
-    "build:es": "vite build --mode es",
-    "build:cjs:iife": "vite build --mode cjs:iife",
+    "build:demo": "vite build --mode demo",
+    "build:lib": "vite build --mode lib",
     "serve": "vite preview"
   },
-  "main": "dist/vue-concise-carousel.cjs.js",
-  "browser": "dist/vue-concise-carousel.es.js",
-  "module": "dist/vue-concise-carousel.es.js",
-  "unpkg": "dist/vue-concise-carousel.iife.js",
+  "main": "lib/vue-concise-carousel.cjs.js",
+  "browser": "lib/vue-concise-carousel.es.js",
+  "module": "src/index.js",
+  "unpkg": "lib/vue-concise-carousel.umd.js",
   "files": [
-    "dist"
+    "lib",
+    "src"
   ],
   "dependencies": {},
   "devDependencies": {
@@ -53,6 +54,6 @@
     "vue": "^3.0.11"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">=12.x <15.x"
   }
 }

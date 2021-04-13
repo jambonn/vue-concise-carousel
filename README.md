@@ -2,6 +2,8 @@
 > Vue Concise Carousel is SSR and CSR friendly.
 > An upgraded version from [vue-carousel](https://github.com/SSENSE/vue-carousel)
 
+Vue 3 support is almost here with the vue-concise-carousel 2 rewrite. Check out the [next](https://github.com/jambonn/vue-concise-carousel/tree/next) branch to see the latest progress.
+
 **[Full examples](https://jambonn.github.io/vue-concise-carousel/#example-full)**
 
 ## Table of Contents
@@ -17,13 +19,13 @@
 ## Installation
 
 ``` bash
-npm install @jambonn/vue-concise-carousel
+npm install @jambonn/vue-concise-carousel@next
 ```
 
 or if you prefer yarn
 
 ``` bash
-yarn add @jambonn/vue-concise-carousel
+yarn add @jambonn/vue-concise-carousel@next
 ```
 
 ## Usage
@@ -127,14 +129,14 @@ Once the **Carousel** and **Slide** components are installed globally or importe
   </Carousel>
 ```
 
-To listen for the 'slideclick' event you can do the following:
+To listen for the 'slide-click' event you can do the following:
 
 ``` vue
   <Carousel>
     <Slide
         data-index="0"
         data-name="MySlideName"
-        @slideclick="handleSlideClick">
+        @slide-click="handleSlideClick">
       Slide 1 Content
     </Slide>
     ...
@@ -241,7 +243,7 @@ To listen for the 'slideclick' event you can do the following:
 ### Compiles and hot-reloads for development
 ``` bash
 yarn install
-yarn serve
+yarn dev
 ```
 then navigate to `http://localhost:8080`
 

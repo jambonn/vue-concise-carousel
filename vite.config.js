@@ -4,13 +4,25 @@ import vue from '@vitejs/plugin-vue'
 // https://vitejs.dev/config/
 export default ({ command, mode }) => {
   const isProd = command === 'build'
-  const formats = mode === 'es' ? ['es'] : ['cjs', 'iife']
+  const isDemo = mode === 'demo'
   const config = {
-    mode: isProd ? 'production' : '',
+    server: {
+      port: 8080,
+    },
     plugins: [vue()],
   }
-  if (isProd) {
+
+  if (!isProd || isDemo) {
+    config.root = `${process.cwd()}/demo`
     config.build = {
+      outDir: `${process.cwd()}/dist`,
+      emptyOutDir: true,
+    }
+  }
+
+  if (isProd && !isDemo) {
+    config.build = {
+      outDir: 'lib',
       rollupOptions: {
         external: ['vue'],
         output: {
@@ -21,19 +33,12 @@ export default ({ command, mode }) => {
         },
       },
       lib: {
-        entry: path.resolve(__dirname, 'src/entry.js'),
+        entry: path.resolve(__dirname, 'src/index.js'),
         name: 'VueConciseCarousel',
-        formats,
+        formats: ['es', 'cjs', 'umd'],
       },
-      terserOptions: {
-        ecma: 5,
-      },
-    }
-  } else {
-    config.server = {
-      open: '/demo/template.html',
-      hmr: false,
     }
   }
+
   return config
 }
