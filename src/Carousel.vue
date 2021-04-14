@@ -36,7 +36,7 @@
         :prevLabel="navigationPrevLabel"
         :canAdvanceForward="canAdvanceForward"
         :canAdvanceBackward="canAdvanceBackward"
-        @navigationclick="handleNavigation"
+        @navigation-click="handleNavigation"
       />
     </slot>
 
@@ -53,7 +53,7 @@
         :pageCount="pageCount"
         :slideCount="slideCount"
         :currentPage="currentPage"
-        @paginationclick="goToPage($event, 'pagination')"
+        @pagination-click="goToPage($event, 'pagination')"
       />
     </slot>
   </div>
@@ -1056,27 +1056,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.VueCarousel {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-}
-.VueCarousel--reverse {
-  flex-direction: column-reverse;
-}
-.VueCarousel-wrapper {
-  width: 100%;
-  position: relative;
-  overflow: hidden;
-}
-.VueCarousel-inner {
-  display: flex;
-  flex-direction: row;
-  backface-visibility: hidden;
-}
-.VueCarousel-inner--center {
-  justify-content: center;
-}
-</style>

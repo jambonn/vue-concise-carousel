@@ -9,7 +9,7 @@
         { 'VueCarousel-navigation--disabled': !canAdvanceBackward },
       ]"
       :style="`padding: ${clickTargetSize}px; margin-right: -${clickTargetSize}px;`"
-      @click.prevent="$emit('navigationclick', 'backward')"
+      @click.prevent="$emit('navigation-click', 'backward')"
       v-html="prevLabel"
     ></button>
     <button
@@ -17,7 +17,7 @@
       aria-label="Next page"
       :tabindex="canAdvanceForward ? 0 : -1"
       class="VueCarousel-navigation-button VueCarousel-navigation-next"
-      @click.prevent="$emit('navigationclick', 'forward')"
+      @click.prevent="$emit('navigation-click', 'forward')"
       :class="[
         'VueCarousel-navigation-button VueCarousel-navigation-next',
         { 'VueCarousel-navigation--disabled': !canAdvanceForward },
@@ -31,7 +31,7 @@
 <script>
 export default {
   name: 'Navigation',
-  emits: ['navigationclick'],
+  emits: ['navigation-click'],
   props: {
     clickTargetSize: {
       type: Number,
@@ -56,38 +56,3 @@ export default {
   },
 }
 </script>
-
-<style scoped>
-.VueCarousel-navigation-button {
-  position: absolute;
-  top: 50%;
-  box-sizing: border-box;
-  color: #000;
-  text-decoration: none;
-  appearance: none;
-  border: none;
-  background-color: transparent;
-  padding: 0;
-  cursor: pointer;
-  outline: none;
-}
-.VueCarousel-navigation-button:focus {
-  outline: none;
-}
-.VueCarousel-navigation-next {
-  right: 0;
-  transform: translateY(-50%) translateX(100%);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-}
-.VueCarousel-navigation-prev {
-  left: 0;
-  transform: translateY(-50%) translateX(-100%);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
-    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-}
-.VueCarousel-navigation--disabled {
-  opacity: 0.5;
-  cursor: default;
-}
-</style>

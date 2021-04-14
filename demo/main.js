@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-import { Carousel, Slide } from '../src/LibEntry'
+import '../src/scss/index.scss'
+import { Carousel, Slide } from '../src/index.js'
 
 const app = createApp(App)
 app.component(Carousel.name, Carousel)

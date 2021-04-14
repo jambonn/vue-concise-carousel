@@ -5,6 +5,7 @@
 .idea
 .prettierrc
 
+src/scss
 node_modules/
 package-lock.json
 yarn.lock
