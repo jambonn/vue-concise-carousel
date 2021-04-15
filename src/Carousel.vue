@@ -734,12 +734,12 @@ export default {
         return
       }
 
-      document.addEventListener(isTouch ? 'touchend' : 'mouseup', onEnd, true)
-      document.addEventListener(
-        isTouch ? 'touchmove' : 'mousemove',
-        onDrag,
-        true,
-      )
+      document.addEventListener(isTouch ? 'touchend' : 'mouseup', onEnd, {
+        passive: true,
+      })
+      document.addEventListener(isTouch ? 'touchmove' : 'mousemove', onDrag, {
+        passive: true,
+      })
 
       startTime.value = e.timeStamp
       dragging.value = true
@@ -960,19 +960,26 @@ export default {
     })
     onMounted(() => {
       if (!isServer && props.autoplayHoverPause) {
-        vueConciseCarousel.value.addEventListener('mouseenter', pauseAutoplay)
-        vueConciseCarousel.value.addEventListener('mouseleave', startAutoplay)
+        vueConciseCarousel.value.addEventListener('mouseenter', pauseAutoplay, {
+          passive: true,
+        })
+        vueConciseCarousel.value.addEventListener('mouseleave', startAutoplay, {
+          passive: true,
+        })
       }
 
       startAutoplay()
 
-      window.addEventListener('resize', debounce(onResize, refreshRate.value))
+      window.addEventListener('resize', debounce(onResize, refreshRate.value), {
+        passive: true,
+      })
 
       // setup the start event only if touch device or mousedrag activated
       if ((isTouch && props.touchDrag) || props.mouseDrag) {
         vueCarouselWrapper.value.addEventListener(
           isTouch ? 'touchstart' : 'mousedown',
           onStart,
+          { passive: true },
         )
       }
 
@@ -984,11 +991,13 @@ export default {
       vueCarouselInner.value.addEventListener(
         transitionstart.value,
         handleTransitionStart,
+        { passive: true },
       )
       transitionend.value = getTransitionEnd()
       vueCarouselInner.value.addEventListener(
         transitionend.value,
         handleTransitionEnd,
+        { passive: true },
       )
 
       ctx.emit('mounted')

@@ -48,12 +48,15 @@ export default {
 
     onMounted(() => {
       if (!isServer) {
-        vueCarouselSlide.value.addEventListener('dragstart', e =>
-          e.preventDefault(),
+        vueCarouselSlide.value.addEventListener(
+          'dragstart',
+          e => e.preventDefault(),
+          { passive: true },
         )
         vueCarouselSlide.value.addEventListener(
           carousel.isTouch ? 'touchend' : 'mouseup',
           onTouchEnd,
+          { passive: true },
         )
       }
     })
