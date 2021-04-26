@@ -1043,6 +1043,8 @@ export default {
       vueCarouselWrapper,
       vueCarouselInner,
       isCenterModeEnabled,
+      offset,
+      maxOffset,
       currentOffset,
       dragging,
       transitionStyle,
