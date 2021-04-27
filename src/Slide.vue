@@ -1,7 +1,6 @@
 <template>
   <div
     ref="vueCarouselSlide"
-    class="VueCarousel-slide"
     tabindex="-1"
     role="tabpanel"
     :class="[

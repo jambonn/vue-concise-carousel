@@ -16,7 +16,6 @@
       type="button"
       aria-label="Next page"
       :tabindex="canAdvanceForward ? 0 : -1"
-      class="VueCarousel-navigation-button VueCarousel-navigation-next"
       @click.prevent="$emit('navigation-click', 'forward')"
       :class="[
         'VueCarousel-navigation-button VueCarousel-navigation-next',
