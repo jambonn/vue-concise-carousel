@@ -376,6 +376,13 @@ export default {
       type: String,
       default: 'forward',
     },
+    /**
+     * Flag to navigate slide using keyboard
+     */
+    keyboard: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, ctx) {
     const browserWidth = ref(null)
@@ -397,6 +404,7 @@ export default {
     const startTime = ref(null)
     const autoplayInterval = ref(null)
     const slotSlides = ref([])
+    const keyboardEvent = ref(null)
 
     // Ref template
     const vueConciseCarousel = ref(null)
@@ -910,6 +918,19 @@ export default {
       ctx.emit('transition-end')
     }
 
+    const keyboardEventHandler = ({ keyCode }) => {
+      const isArrowLeft = keyCode === 37;
+      const isArrowRight = keyCode === 39;
+
+      if (isArrowLeft) {
+        advancePage('backward');
+      }
+
+      if (isArrowRight) {
+        advancePage('forward');
+      }
+    }
+
     provide('carousel', {
       isTouch,
       dragStartX,
@@ -966,6 +987,10 @@ export default {
         vueConciseCarousel.value.addEventListener('mouseleave', startAutoplay, {
           passive: true,
         })
+
+        if (props.keyboard) {
+          document.addEventListener('keydown', keyboardEventHandler)
+        }
       }
 
       startAutoplay()
@@ -1036,6 +1061,10 @@ export default {
         isTouch ? 'touchstart' : 'mousedown',
         onStart,
       )
+
+      if (props.keyboard) {
+        document.removeEventListener('keydown', keyboardEventHandler)
+      }
     })
 
     return {
