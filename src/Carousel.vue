@@ -376,6 +376,13 @@ export default {
       type: String,
       default: 'forward',
     },
+    /**
+     * Flag to navigate slide using keyboard
+     */
+    keyboard: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, ctx) {
     const browserWidth = ref(null)
@@ -909,6 +916,16 @@ export default {
     const handleTransitionEnd = () => {
       ctx.emit('transition-end')
     }
+    const keyboardEventHandler = ({ keyCode }) => {
+      const isArrowLeft = keyCode === 37
+      const isArrowRight = keyCode === 39
+      if (canAdvanceBackward.value && isArrowLeft) {
+        advancePage('backward')
+      }
+      if (canAdvanceForward.value && isArrowRight) {
+        advancePage('forward')
+      }
+    }
 
     provide('carousel', {
       isTouch,
@@ -959,13 +976,29 @@ export default {
       ctx.emit('input', val)
     })
     onMounted(() => {
-      if (!isServer && props.autoplayHoverPause) {
-        vueConciseCarousel.value.addEventListener('mouseenter', pauseAutoplay, {
-          passive: true,
-        })
-        vueConciseCarousel.value.addEventListener('mouseleave', startAutoplay, {
-          passive: true,
-        })
+      if (!isServer) {
+        if (props.autoplayHoverPause) {
+          vueConciseCarousel.value.addEventListener(
+            'mouseenter',
+            pauseAutoplay,
+            {
+              passive: true,
+            },
+          )
+          vueConciseCarousel.value.addEventListener(
+            'mouseleave',
+            startAutoplay,
+            {
+              passive: true,
+            },
+          )
+        }
+
+        if (props.keyboard) {
+          document.addEventListener('keydown', keyboardEventHandler, {
+            passive: true,
+          })
+        }
       }
 
       startAutoplay()
@@ -1011,15 +1044,21 @@ export default {
       computeCarouselWidth()
     })
     onBeforeUnmount(() => {
-      if (!isServer && props.autoplayHoverPause) {
-        vueConciseCarousel.value.removeEventListener(
-          'mouseenter',
-          pauseAutoplay,
-        )
-        vueConciseCarousel.value.removeEventListener(
-          'mouseleave',
-          startAutoplay,
-        )
+      if (!isServer) {
+        if (props.autoplayHoverPause) {
+          vueConciseCarousel.value.removeEventListener(
+            'mouseenter',
+            pauseAutoplay,
+          )
+          vueConciseCarousel.value.removeEventListener(
+            'mouseleave',
+            startAutoplay,
+          )
+        }
+
+        if (props.keyboard) {
+          document.removeEventListener('keydown', keyboardEventHandler)
+        }
       }
 
       detachMutationObserver()

@@ -99,6 +99,7 @@ export default {
 | value                       | Number  |         | Support for v-model functionality. Setting this value will change the current page to the number inputted (if between 0 and pageCount).                                                                                                                                               |
 | maxPaginationDotCount       | Number  |  -1     | Support Max pagination dot amount                                                                                                                                                                                                                                                     |
 | rtl                         | Boolean |  false  | Support right to left                                                                                                                                                                                                                                                                 |
+| keyboard                    | Boolean |  false  | Navigate slide using keyboard                                                                                                                                                                                                                                                         |
 
 
 ## Events
