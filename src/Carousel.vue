@@ -1093,6 +1093,7 @@ export default {
       isNavigationRequired,
       pageCount,
       slideCount,
+      currentPerPage,
       currentPage,
       canAdvanceForward,
       canAdvanceBackward,
