@@ -652,12 +652,14 @@ export default {
      * @return {Number} Width of the carousel in pixels
      */
     const getCarouselWidth = () => {
-      const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-        'VueCarousel-inner',
-      )
-      for (let i = 0; i < carouselInnerElements.length; i++) {
-        if (carouselInnerElements[i].clientWidth > 0) {
-          carouselWidth.value = carouselInnerElements[i].clientWidth || 0
+      if (vueConciseCarousel.value) {
+        const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
+          'VueCarousel-inner',
+        )
+        for (let i = 0; i < carouselInnerElements.length; i++) {
+          if (carouselInnerElements[i].clientWidth > 0) {
+            carouselWidth.value = carouselInnerElements[i].clientWidth || 0
+          }
         }
       }
       return carouselWidth.value
