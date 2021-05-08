@@ -690,11 +690,13 @@ export default {
      * @return {Number} The number of slides
      */
     const getSlideCount = () => {
-      const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-        'VueCarousel-slide',
-      )
-      slotSlides.value = carouselInnerElements
-      slideCount.value = carouselInnerElements.length
+      if (vueConciseCarousel.value) {
+        const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
+          'VueCarousel-slide',
+        )
+        slotSlides.value = carouselInnerElements
+        slideCount.value = carouselInnerElements.length
+      }
     }
     /**
      * Gets the slide at the specified index
