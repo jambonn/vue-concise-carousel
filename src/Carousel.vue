@@ -652,12 +652,14 @@ export default {
      * @return {Number} Width of the carousel in pixels
      */
     const getCarouselWidth = () => {
-      const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-        'VueCarousel-inner',
-      )
-      for (let i = 0; i < carouselInnerElements.length; i++) {
-        if (carouselInnerElements[i].clientWidth > 0) {
-          carouselWidth.value = carouselInnerElements[i].clientWidth || 0
+      if (vueConciseCarousel.value) {
+        const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
+          'VueCarousel-inner',
+        )
+        for (let i = 0; i < carouselInnerElements.length; i++) {
+          if (carouselInnerElements[i].clientWidth > 0) {
+            carouselWidth.value = carouselInnerElements[i].clientWidth || 0
+          }
         }
       }
       return carouselWidth.value
@@ -688,11 +690,13 @@ export default {
      * @return {Number} The number of slides
      */
     const getSlideCount = () => {
-      const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-        'VueCarousel-slide',
-      )
-      slotSlides.value = carouselInnerElements
-      slideCount.value = carouselInnerElements.length
+      if (vueConciseCarousel.value) {
+        const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
+          'VueCarousel-slide',
+        )
+        slotSlides.value = carouselInnerElements
+        slideCount.value = carouselInnerElements.length
+      }
     }
     /**
      * Gets the slide at the specified index
@@ -995,7 +999,7 @@ export default {
         }
 
         if (props.keyboard) {
-          document.addEventListener('keydown', keyboardEventHandler, {
+          window.addEventListener('keydown', keyboardEventHandler, {
             passive: true,
           })
         }
@@ -1057,7 +1061,7 @@ export default {
         }
 
         if (props.keyboard) {
-          document.removeEventListener('keydown', keyboardEventHandler)
+          window.removeEventListener('keydown', keyboardEventHandler)
         }
       }
 
@@ -1093,6 +1097,7 @@ export default {
       isNavigationRequired,
       pageCount,
       slideCount,
+      currentPerPage,
       currentPage,
       canAdvanceForward,
       canAdvanceBackward,
