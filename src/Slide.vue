@@ -15,66 +15,70 @@
 </template>
 
 <script>
-import { ref, inject, computed, onMounted, onBeforeUnmount } from 'vue'
-import { isServer } from './utils'
+import {
+  ref,
+  inject,
+  nextTick,
+  computed,
+  onMounted,
+  onBeforeUnmount,
+} from "vue";
 
 export default {
-  name: 'Slide',
-  emits: ['slide-click'],
+  name: "Slide",
+  emits: ["slide-click"],
   setup(props, ctx) {
-    const carousel = inject('carousel')
+    const carousel = inject("carousel");
 
     // Ref template
-    const vueCarouselSlide = ref(null)
+    const vueCarouselSlide = ref(null);
 
     const isAdjustableHeight = computed(() => {
-      return carousel.adjustableHeight
-    })
+      return carousel.adjustableHeight;
+    });
 
-    const onTouchEnd = e => {
+    const onTouchEnd = (e) => {
       const eventPosX =
         carousel.isTouch && e.changedTouches && e.changedTouches.length > 0
           ? e.changedTouches[0].clientX
-          : e.clientX
-      const deltaX = carousel.dragStartX.value - eventPosX
+          : e.clientX;
+      const deltaX = carousel.dragStartX.value - eventPosX;
       if (
         carousel.minSwipeDistance === 0 ||
         Math.abs(deltaX) < carousel.minSwipeDistance
       ) {
-        ctx.emit('slide-click', Object.assign({}, e.currentTarget.dataset))
+        ctx.emit("slide-click", Object.assign({}, e.currentTarget.dataset));
       }
-    }
+    };
 
     onMounted(() => {
-      if (!isServer) {
+      nextTick(() => {
+        vueCarouselSlide.value.addEventListener("dragstart", (e) =>
+          e.preventDefault()
+        );
         vueCarouselSlide.value.addEventListener(
-          'dragstart',
-          e => e.preventDefault(),
-          { passive: true },
-        )
-        vueCarouselSlide.value.addEventListener(
-          carousel.isTouch ? 'touchend' : 'mouseup',
+          carousel.isTouch ? "touchend" : "mouseup",
           onTouchEnd,
-          { passive: true },
-        )
-      }
-    })
+          true
+        );
+      });
+    });
     onBeforeUnmount(() => {
-      if (!isServer) {
-        vueCarouselSlide.value.removeEventListener('dragstart', e =>
-          e.preventDefault(),
-        )
+      nextTick(() => {
+        vueCarouselSlide.value.removeEventListener("dragstart", (e) =>
+          e.preventDefault()
+        );
         vueCarouselSlide.value.removeEventListener(
-          carousel.isTouch ? 'touchend' : 'mouseup',
-          onTouchEnd,
-        )
-      }
-    })
+          carousel.isTouch ? "touchend" : "mouseup",
+          onTouchEnd
+        );
+      });
+    });
 
     return {
       vueCarouselSlide,
       isAdjustableHeight,
-    }
+    };
   },
-}
+};
 </script>

@@ -45,6 +45,6 @@
 
 <script>
 export default {
-  name: 'ExampleResponsive',
-}
+  name: "ExampleResponsive",
+};
 </script>

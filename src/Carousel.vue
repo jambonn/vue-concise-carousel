@@ -70,53 +70,52 @@ import {
   onBeforeUpdate,
   onBeforeUnmount,
   watch,
-} from 'vue'
-import { isServer } from './utils'
-import debounce from './utils/debounce'
-import Navigation from './Navigation.vue'
-import Pagination from './Pagination.vue'
+} from "vue";
+import debounce from "./utils/debounce";
+import Navigation from "./Navigation.vue";
+import Pagination from "./Pagination.vue";
 
 const transitionStartNames = {
-  onwebkittransitionstart: 'webkitTransitionStart',
-  onmoztransitionstart: 'transitionstart',
-  onotransitionstart: 'oTransitionStart otransitionstart',
-  ontransitionstart: 'transitionstart',
-}
+  onwebkittransitionstart: "webkitTransitionStart",
+  onmoztransitionstart: "transitionstart",
+  onotransitionstart: "oTransitionStart otransitionstart",
+  ontransitionstart: "transitionstart",
+};
 const transitionEndNames = {
-  onwebkittransitionend: 'webkitTransitionEnd',
-  onmoztransitionend: 'transitionend',
-  onotransitionend: 'oTransitionEnd otransitionend',
-  ontransitionend: 'transitionend',
-}
+  onwebkittransitionend: "webkitTransitionEnd",
+  onmoztransitionend: "transitionend",
+  onotransitionend: "oTransitionEnd otransitionend",
+  ontransitionend: "transitionend",
+};
 const getTransitionStart = () => {
   for (let name in transitionStartNames) {
     if (name in window) {
-      return transitionStartNames[name]
+      return transitionStartNames[name];
     }
   }
-}
+};
 const getTransitionEnd = () => {
   for (let name in transitionEndNames) {
     if (name in window) {
-      return transitionEndNames[name]
+      return transitionEndNames[name];
     }
   }
-}
+};
 export default {
-  name: 'Carousel',
+  name: "Carousel",
   components: {
     Navigation,
     Pagination,
   },
   emits: [
-    'mounted',
-    'input',
-    'page-change',
-    'pagination',
-    'navigation-click',
-    'pagination-click',
-    'transition-start',
-    'transition-end',
+    "mounted",
+    "input",
+    "page-change",
+    "pagination",
+    "navigation-click",
+    "pagination-click",
+    "transition-start",
+    "transition-end",
   ],
   props: {
     /**
@@ -148,12 +147,12 @@ export default {
       type: String,
       validator: function (value) {
         return (
-          ['ease', 'linear', 'ease-in', 'ease-out', 'ease-in-out'].indexOf(
-            value,
-          ) !== -1 || value.includes('cubic-bezier')
-        )
+          ["ease", "linear", "ease-in", "ease-out", "ease-in-out"].indexOf(
+            value
+          ) !== -1 || value.includes("cubic-bezier")
+        );
       },
-      default: 'ease',
+      default: "ease",
     },
     /**
      * Flag to make the carousel loop around when it reaches the end
@@ -211,14 +210,14 @@ export default {
      */
     navigationNextLabel: {
       type: String,
-      default: '&#9654',
+      default: "&#9654",
     },
     /**
      * Text content of the navigation prev button
      */
     navigationPrevLabel: {
       type: String,
-      default: '&#9664',
+      default: "&#9664",
     },
     /**
      * The fill color of the active pagination dot
@@ -226,7 +225,7 @@ export default {
      */
     paginationActiveColor: {
       type: String,
-      default: '#000000',
+      default: "#000000",
     },
     /**
      * The fill color of pagination dots
@@ -234,7 +233,7 @@ export default {
      */
     paginationColor: {
       type: String,
-      default: '#efefef',
+      default: "#efefef",
     },
     /**
      * Flag to render pagination component
@@ -257,7 +256,7 @@ export default {
      */
     paginationPosition: {
       type: String,
-      default: 'bottom',
+      default: "bottom",
     },
     /**
      * The size of each pagination dot
@@ -326,7 +325,7 @@ export default {
      */
     tagName: {
       type: String,
-      default: 'slide',
+      default: "slide",
     },
     /**
      * Support for v-model functionality
@@ -374,7 +373,7 @@ export default {
      */
     autoplayDirection: {
       type: String,
-      default: 'forward',
+      default: "forward",
     },
     /**
      * Flag to navigate slide using keyboard
@@ -385,34 +384,34 @@ export default {
     },
   },
   setup(props, ctx) {
-    const browserWidth = ref(null)
-    const carouselWidth = ref(0)
-    const currentPage = ref(0)
-    const dragging = ref(false)
-    const dragMomentum = ref(0)
-    const dragOffset = ref(0)
-    const dragStartY = ref(0)
-    const dragStartX = ref(0)
-    const isTouch = !isServer && 'ontouchstart' in window
-    const offset = ref(0)
-    const refreshRate = ref(16)
-    const slideCount = ref(0)
-    const transitionstart = ref('transitionstart')
-    const transitionend = ref('transitionend')
-    const currentHeight = ref('auto')
-    const mutationObserver = ref(null)
-    const startTime = ref(null)
-    const autoplayInterval = ref(null)
-    const slotSlides = ref([])
+    const browserWidth = ref(null);
+    const carouselWidth = ref(0);
+    const currentPage = ref(0);
+    const dragging = ref(false);
+    const dragMomentum = ref(0);
+    const dragOffset = ref(0);
+    const dragStartY = ref(0);
+    const dragStartX = ref(0);
+    const isTouch = typeof window !== "undefined" && "ontouchstart" in window;
+    const offset = ref(0);
+    const refreshRate = ref(16);
+    const slideCount = ref(0);
+    const transitionstart = ref("transitionstart");
+    const transitionend = ref("transitionend");
+    const currentHeight = ref("auto");
+    const mutationObserver = ref(null);
+    const startTime = ref(null);
+    const autoplayInterval = ref(null);
+    const slotSlides = ref([]);
 
     // Ref template
-    const vueConciseCarousel = ref(null)
-    const vueCarouselWrapper = ref(null)
-    const vueCarouselInner = ref(null)
+    const vueConciseCarousel = ref(null);
+    const vueCarouselWrapper = ref(null);
+    const vueCarouselInner = ref(null);
 
-    const autoplay = toRef(props, 'autoplay')
-    const carouselValue = toRef(props, 'value')
-    const navigateTo = toRef(props, 'navigateTo')
+    const autoplay = toRef(props, "autoplay");
+    const carouselValue = toRef(props, "value");
+    const navigateTo = toRef(props, "navigateTo");
     /**
      * Given a viewport width, find the number of slides to display
      * @param  {Number} width Current viewport width in pixels
@@ -420,54 +419,58 @@ export default {
      */
     const breakpointSlidesPerPage = computed(() => {
       if (!props.perPageCustom) {
-        return props.perPage
+        return props.perPage;
       }
-      const breakpointArray = props.perPageCustom
-      const width = browserWidth.value
-      const breakpoints = breakpointArray.sort((a, b) => (a[0] > b[0] ? -1 : 1))
+      const breakpointArray = props.perPageCustom;
+      const width = browserWidth.value;
+      const breakpoints = breakpointArray.sort((a, b) =>
+        a[0] > b[0] ? -1 : 1
+      );
       // Reduce the breakpoints to entries where the width is in range
       // The breakpoint arrays are formatted as [widthToMatch, numberOfSlides]
-      const matches = breakpoints.filter(breakpoint => width >= breakpoint[0])
+      const matches = breakpoints.filter(
+        (breakpoint) => width >= breakpoint[0]
+      );
       // If there is a match, the result should return only
       // the slide count from the first matching breakpoint
-      const match = matches[0] && matches[0][1]
-      return match || props.perPage
-    })
+      const match = matches[0] && matches[0][1];
+      return match || props.perPage;
+    });
     /**
      * @return {Boolean} Can the slider move forward?
      */
     const canAdvanceForward = computed(() => {
-      return props.loop || offset.value < maxOffset.value
-    })
+      return props.loop || offset.value < maxOffset.value;
+    });
     /**
      * @return {Boolean} Can the slider move backward?
      */
     const canAdvanceBackward = computed(() => {
-      return props.loop || currentPage.value > 0
-    })
+      return props.loop || currentPage.value > 0;
+    });
     /**
      * Number of slides to display per page in the current context.
      * This is constant unless responsive perPage option is set.
      * @return {Number} The number of slides per page to display
      */
     const currentPerPage = computed(() => {
-      return !props.perPageCustom || isServer
+      return !props.perPageCustom || typeof window === "undefined"
         ? props.perPage
-        : breakpointSlidesPerPage.value
-    })
+        : breakpointSlidesPerPage.value;
+    });
     /**
      * The horizontal distance the inner wrapper is offset while navigating.
      * @return {Number} Pixel value of offset to apply
      */
     const currentOffset = computed(() => {
       if (isCenterModeEnabled.value) {
-        return 0
+        return 0;
       } else if (props.rtl) {
-        return offset.value - dragOffset.value
+        return offset.value - dragOffset.value;
       } else {
-        return (offset.value + dragOffset.value) * -1
+        return (offset.value + dragOffset.value) * -1;
       }
-    })
+    });
     /**
      * Maximum offset the carousel can slide
      * Considering the spacePadding
@@ -477,9 +480,9 @@ export default {
       return Math.max(
         slideWidth.value * (slideCount.value - currentPerPage.value) -
           props.spacePadding * props.spacePaddingMaxOffsetFactor,
-        0,
-      )
-    })
+        0
+      );
+    });
     /**
      * Calculate the number of pages of slides
      * @return {Number} Number of pages
@@ -487,107 +490,107 @@ export default {
     const pageCount = computed(() => {
       return props.scrollPerPage
         ? Math.ceil(slideCount.value / currentPerPage.value)
-        : slideCount.value - currentPerPage.value + 1
-    })
+        : slideCount.value - currentPerPage.value + 1;
+    });
     /**
      * Calculate the width of each slide
      * @return {Number} Slide width
      */
     const slideWidth = computed(() => {
-      const width = carouselWidth.value - props.spacePadding * 2
-      const perPage = currentPerPage.value
-      return width / perPage
-    })
+      const width = carouselWidth.value - props.spacePadding * 2;
+      const perPage = currentPerPage.value;
+      return width / perPage;
+    });
     /**
      * @return {Boolean} Is navigation required?
      */
     const isNavigationRequired = computed(() => {
-      return slideCount.value > currentPerPage.value
-    })
+      return slideCount.value > currentPerPage.value;
+    });
     /**
      * @return {Boolean} Center images when have less than min currentPerPage value
      */
     const isCenterModeEnabled = computed(() => {
-      return props.centerMode && !isNavigationRequired.value
-    })
+      return props.centerMode && !isNavigationRequired.value;
+    });
     const transitionStyle = computed(() => {
-      const speed = `${props.speed / 1000}s`
-      const transition = `${speed} ${props.easing} transform`
+      const speed = `${props.speed / 1000}s`;
+      const transition = `${speed} ${props.easing} transform`;
       if (props.adjustableHeight) {
         return `${transition}, height ${speed} ${
           props.adjustableHeightEasing || props.easing
-        }`
+        }`;
       }
-      return transition
-    })
+      return transition;
+    });
     const padding = computed(() => {
-      const padding = props.spacePadding
-      return padding > 0 ? padding : false
-    })
+      const padding = props.spacePadding;
+      return padding > 0 ? padding : false;
+    });
 
     const pauseAutoplay = () => {
       if (autoplayInterval.value) {
-        autoplayInterval.value = clearInterval(autoplayInterval.value)
+        autoplayInterval.value = clearInterval(autoplayInterval.value);
       }
-    }
+    };
     const startAutoplay = () => {
       if (autoplay.value) {
         autoplayInterval.value = setInterval(
           autoplayAdvancePage,
-          props.autoplayTimeout,
-        )
+          props.autoplayTimeout
+        );
       }
-    }
+    };
     const restartAutoplay = () => {
-      pauseAutoplay()
-      startAutoplay()
-    }
+      pauseAutoplay();
+      startAutoplay();
+    };
     const autoplayAdvancePage = () => {
-      advancePage(props.autoplayDirection)
-    }
+      advancePage(props.autoplayDirection);
+    };
     /**
      * @return {Number} The index of the next page
      * */
     const getNextPage = () => {
       if (currentPage.value < pageCount.value - 1) {
-        return +currentPage.value + 1
+        return +currentPage.value + 1;
       }
-      return props.loop ? 0 : currentPage.value
-    }
+      return props.loop ? 0 : currentPage.value;
+    };
     /**
      * @return {Number} The index of the previous page
      * */
     const getPreviousPage = () => {
       if (currentPage.value > 0) {
-        return currentPage.value - 1
+        return currentPage.value - 1;
       }
-      return props.loop ? pageCount.value - 1 : currentPage.value
-    }
+      return props.loop ? pageCount.value - 1 : currentPage.value;
+    };
     /**
      * Increase/decrease the current page value
      * @param  {String} direction (Optional) The direction to advance
      */
-    const advancePage = direction => {
-      if (direction && direction === 'backward' && canAdvanceBackward.value) {
-        goToPage(getPreviousPage(), 'navigation')
+    const advancePage = (direction) => {
+      if (direction && direction === "backward" && canAdvanceBackward.value) {
+        goToPage(getPreviousPage(), "navigation");
       } else if (
-        (!direction || (direction && direction !== 'backward')) &&
+        (!direction || (direction && direction !== "backward")) &&
         canAdvanceForward.value
       ) {
-        goToPage(getNextPage(), 'navigation')
+        goToPage(getNextPage(), "navigation");
       }
-    }
+    };
     const goToLastSlide = () => {
       // following code is to disable animation
-      dragging.value = true
+      dragging.value = true;
       // clear dragging after refresh rate
       setTimeout(() => {
-        dragging.value = false
-      }, refreshRate.value)
+        dragging.value = false;
+      }, refreshRate.value);
       nextTick(() => {
-        goToPage(pageCount.value)
-      })
-    }
+        goToPage(pageCount.value);
+      });
+    };
     /**
      * A mutation observer is used to detect changes to the containing node
      * in order to keep the magnet container in sync with the height its reference node.
@@ -596,57 +599,57 @@ export default {
       const MutationObserver =
         window.MutationObserver ||
         window.WebKitMutationObserver ||
-        window.MozMutationObserver
+        window.MozMutationObserver;
       if (MutationObserver) {
         let config = {
           attributes: true,
           data: true,
-        }
+        };
         if (props.adjustableHeight) {
           const configAdjustableHeight = {
             childList: true,
             subtree: true,
             characterData: true,
-          }
-          config = Object.assign({}, config, configAdjustableHeight)
+          };
+          config = Object.assign({}, config, configAdjustableHeight);
         }
         mutationObserver.value = new MutationObserver(() => {
           nextTick(() => {
-            computeCarouselWidth()
-            computeCarouselHeight()
-          })
-        })
+            computeCarouselWidth();
+            computeCarouselHeight();
+          });
+        });
         if (vueConciseCarousel.value) {
           const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-            'VueCarousel-inner',
-          )
+            "VueCarousel-inner"
+          );
           for (let i = 0; i < carouselInnerElements.length; i++) {
-            mutationObserver.value.observe(carouselInnerElements[i], config)
+            mutationObserver.value.observe(carouselInnerElements[i], config);
           }
         }
       }
-    }
-    const handleNavigation = direction => {
-      advancePage(direction)
-      pauseAutoplay()
-      ctx.emit('navigation-click', direction)
-    }
+    };
+    const handleNavigation = (direction) => {
+      advancePage(direction);
+      pauseAutoplay();
+      ctx.emit("navigation-click", direction);
+    };
     /**
      * Stop listening to mutation changes
      */
     const detachMutationObserver = () => {
       if (mutationObserver.value) {
-        mutationObserver.value.disconnect()
+        mutationObserver.value.disconnect();
       }
-    }
+    };
     /**
      * Get the current browser viewport width
      * @return {Number} Browser"s width in pixels
      */
     const getBrowserWidth = () => {
-      browserWidth.value = window.innerWidth
-      return browserWidth.value
-    }
+      browserWidth.value = window.innerWidth;
+      return browserWidth.value;
+    };
     /**
      * Get the width of the carousel DOM element
      * @return {Number} Width of the carousel in pixels
@@ -654,37 +657,37 @@ export default {
     const getCarouselWidth = () => {
       if (vueConciseCarousel.value) {
         const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-          'VueCarousel-inner',
-        )
+          "VueCarousel-inner"
+        );
         for (let i = 0; i < carouselInnerElements.length; i++) {
           if (carouselInnerElements[i].clientWidth > 0) {
-            carouselWidth.value = carouselInnerElements[i].clientWidth || 0
+            carouselWidth.value = carouselInnerElements[i].clientWidth || 0;
           }
         }
       }
-      return carouselWidth.value
-    }
+      return carouselWidth.value;
+    };
     /**
      * Get the maximum height of the carousel active slides
      * @return {String} The carousel height
      */
     const getCarouselHeight = () => {
       if (!props.adjustableHeight) {
-        return 'auto'
+        return "auto";
       }
-      const slideOffset = currentPerPage.value * (+currentPage.value + 1) - 1
+      const slideOffset = currentPerPage.value * (+currentPage.value + 1) - 1;
       const maxSlideHeight = [...Array(currentPerPage.value)]
         .map((_, idx) => getSlide(slideOffset + idx))
         .reduce(
           (clientHeight, slide) =>
             Math.max(clientHeight, (slide && slide.clientHeight) || 0),
-          0,
-        )
+          0
+        );
 
       currentHeight.value =
-        maxSlideHeight === 0 ? 'auto' : `${maxSlideHeight}px`
-      return currentHeight.value
-    }
+        maxSlideHeight === 0 ? "auto" : `${maxSlideHeight}px`;
+      return currentHeight.value;
+    };
     /**
      * Filter slot contents to slide instances and return length
      * @return {Number} The number of slides
@@ -692,19 +695,19 @@ export default {
     const getSlideCount = () => {
       if (vueConciseCarousel.value) {
         const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-          'VueCarousel-slide',
-        )
-        slotSlides.value = carouselInnerElements
-        slideCount.value = carouselInnerElements.length
+          "VueCarousel-slide"
+        );
+        slotSlides.value = carouselInnerElements;
+        slideCount.value = carouselInnerElements.length;
       }
-    }
+    };
     /**
      * Gets the slide at the specified index
      * @return {Object} The slide at the specified index
      */
-    const getSlide = index => {
-      return slotSlides.value[index]
-    }
+    const getSlide = (index) => {
+      return slotSlides.value[index];
+    };
     /**
      * Set the current page to a specific value
      * This function will only apply the change if the value is within the carousel bounds
@@ -717,61 +720,61 @@ export default {
         offset.value = props.scrollPerPage
           ? Math.min(
               slideWidth.value * currentPerPage.value * page,
-              maxOffset.value,
+              maxOffset.value
             )
-          : slideWidth.value * page
+          : slideWidth.value * page;
         // restart autoplay if specified
         if (autoplay.value && !props.autoplayHoverPause) {
-          restartAutoplay()
+          restartAutoplay();
         }
         // update the current page
-        currentPage.value = page
-        dragMomentum.value = 0
+        currentPage.value = page;
+        dragMomentum.value = 0;
 
-        if (advanceType === 'pagination') {
-          pauseAutoplay()
-          ctx.emit('pagination-click', page)
+        if (advanceType === "pagination") {
+          pauseAutoplay();
+          ctx.emit("pagination-click", page);
         }
       }
-    }
+    };
     /**
      * Trigger actions when mouse is pressed
      * @param  {Object} e The event object
      */
     /* istanbul ignore next */
-    const onStart = e => {
+    const onStart = (e) => {
       // detect right click
       if (e.button === 2) {
-        return
+        return;
       }
 
-      document.addEventListener(isTouch ? 'touchend' : 'mouseup', onEnd, {
-        passive: true,
-      })
-      document.addEventListener(isTouch ? 'touchmove' : 'mousemove', onDrag, {
-        passive: true,
-      })
+      document.addEventListener(isTouch ? "touchend" : "mouseup", onEnd, true);
+      document.addEventListener(
+        isTouch ? "touchmove" : "mousemove",
+        onDrag,
+        true
+      );
 
-      startTime.value = e.timeStamp
-      dragging.value = true
-      dragStartX.value = isTouch ? e.touches[0].clientX : e.clientX
-      dragStartY.value = isTouch ? e.touches[0].clientY : e.clientY
-    }
+      startTime.value = e.timeStamp;
+      dragging.value = true;
+      dragStartX.value = isTouch ? e.touches[0].clientX : e.clientX;
+      dragStartY.value = isTouch ? e.touches[0].clientY : e.clientY;
+    };
     /**
      * Trigger actions when mouse is released
      * @param  {Object} e The event object
      */
-    const onEnd = e => {
+    const onEnd = (e) => {
       // restart autoplay if specified
       if (autoplay.value && !props.autoplayHoverPause) {
-        restartAutoplay()
+        restartAutoplay();
       }
 
-      pauseAutoplay()
+      pauseAutoplay();
       // compute the momemtum speed
-      const eventPosX = isTouch ? e.changedTouches[0].clientX : e.clientX
-      const deltaX = dragStartX.value - eventPosX
-      dragMomentum.value = deltaX / (e.timeStamp - startTime.value)
+      const eventPosX = isTouch ? e.changedTouches[0].clientX : e.clientX;
+      const deltaX = dragStartX.value - eventPosX;
+      dragMomentum.value = deltaX / (e.timeStamp - startTime.value);
       // take care of the minSwipteDistance prop, if not 0 and delta is bigger than delta
       if (
         props.minSwipeDistance !== 0 &&
@@ -779,307 +782,298 @@ export default {
       ) {
         const width = props.scrollPerPage
           ? slideWidth.value * currentPerPage.value
-          : slideWidth.value
-        dragOffset.value = dragOffset.value + Math.sign(deltaX) * (width / 2)
+          : slideWidth.value;
+        dragOffset.value = dragOffset.value + Math.sign(deltaX) * (width / 2);
       }
       if (props.rtl) {
-        offset.value -= dragOffset.value
+        offset.value -= dragOffset.value;
       } else {
-        offset.value += dragOffset.value
+        offset.value += dragOffset.value;
       }
-      dragOffset.value = 0
-      dragging.value = false
-      render()
+      dragOffset.value = 0;
+      dragging.value = false;
+      render();
       // clear events listeners
       document.removeEventListener(
-        isTouch ? 'touchend' : 'mouseup',
+        isTouch ? "touchend" : "mouseup",
         onEnd,
-        true,
-      )
+        true
+      );
       document.removeEventListener(
-        isTouch ? 'touchmove' : 'mousemove',
+        isTouch ? "touchmove" : "mousemove",
         onDrag,
-        true,
-      )
-    }
+        true
+      );
+    };
     /**
      * Trigger actions when mouse is pressed and then moved (mouse drag)
      * @param  {Object} e The event object
      */
-    const onDrag = e => {
-      const eventPosX = isTouch ? e.touches[0].clientX : e.clientX
-      const eventPosY = isTouch ? e.touches[0].clientY : e.clientY
-      const newOffsetX = dragStartX.value - eventPosX
-      const newOffsetY = dragStartY.value - eventPosY
+    const onDrag = (e) => {
+      const eventPosX = isTouch ? e.touches[0].clientX : e.clientX;
+      const eventPosY = isTouch ? e.touches[0].clientY : e.clientY;
+      const newOffsetX = dragStartX.value - eventPosX;
+      const newOffsetY = dragStartY.value - eventPosY;
       // if it is a touch device, check if we are below the min swipe threshold
       // (if user scroll the page on the component)
       if (isTouch && Math.abs(newOffsetX) < Math.abs(newOffsetY)) {
-        return
+        return;
       }
 
       // e.stopImmediatePropagation()
 
-      dragOffset.value = newOffsetX
-      const nextOffset = offset.value + dragOffset.value
+      dragOffset.value = newOffsetX;
+      const nextOffset = offset.value + dragOffset.value;
 
       if (props.rtl) {
         if (offset.value === 0 && dragOffset.value > 0) {
-          dragOffset.value = Math.sqrt(props.resistanceCoef * dragOffset.value)
+          dragOffset.value = Math.sqrt(props.resistanceCoef * dragOffset.value);
         } else if (offset.value === maxOffset.value && dragOffset.value < 0) {
           dragOffset.value = -Math.sqrt(
-            -props.resistanceCoef * dragOffset.value,
-          )
+            -props.resistanceCoef * dragOffset.value
+          );
         }
       } else {
         if (nextOffset < 0) {
           dragOffset.value = -Math.sqrt(
-            -props.resistanceCoef * dragOffset.value,
-          )
+            -props.resistanceCoef * dragOffset.value
+          );
         } else if (nextOffset > maxOffset.value) {
-          dragOffset.value = Math.sqrt(props.resistanceCoef * dragOffset.value)
+          dragOffset.value = Math.sqrt(props.resistanceCoef * dragOffset.value);
         }
       }
-    }
+    };
     const onResize = () => {
-      computeCarouselWidth()
-      computeCarouselHeight()
-      dragging.value = true // force a dragging to disable animation
-      render()
+      computeCarouselWidth();
+      computeCarouselHeight();
+      dragging.value = true; // force a dragging to disable animation
+      render();
       // clear dragging after refresh rate
       setTimeout(() => {
-        dragging.value = false
-      }, refreshRate.value)
-    }
+        dragging.value = false;
+      }, refreshRate.value);
+    };
     const render = () => {
       // add extra slides depending on the momemtum speed
       if (props.rtl) {
         offset.value -=
           Math.max(
             -currentPerPage.value + 1,
-            Math.min(Math.round(dragMomentum.value), currentPerPage.value - 1),
-          ) * slideWidth.value
+            Math.min(Math.round(dragMomentum.value), currentPerPage.value - 1)
+          ) * slideWidth.value;
       } else {
         offset.value +=
           Math.max(
             -currentPerPage.value + 1,
-            Math.min(Math.round(dragMomentum.value), currentPerPage.value - 1),
-          ) * slideWidth.value
+            Math.min(Math.round(dragMomentum.value), currentPerPage.value - 1)
+          ) * slideWidth.value;
       }
       // & snap the new offset on a slide or page if scrollPerPage
       const width = props.scrollPerPage
         ? slideWidth.value * currentPerPage.value
-        : slideWidth.value
+        : slideWidth.value;
       // lock offset to either the nearest page, or to the last slide
       const lastFullPageOffset =
-        width * Math.floor(slideCount.value / (currentPerPage.value - 1))
+        width * Math.floor(slideCount.value / (currentPerPage.value - 1));
       const remainderOffset =
         lastFullPageOffset +
-        slideWidth.value * (slideCount.value % currentPerPage.value)
+        slideWidth.value * (slideCount.value % currentPerPage.value);
 
       if (offset.value > (lastFullPageOffset + remainderOffset) / 2) {
-        offset.value = remainderOffset
+        offset.value = remainderOffset;
       } else {
-        offset.value = width * Math.round(offset.value / width)
+        offset.value = width * Math.round(offset.value / width);
       }
 
       // clamp the offset between 0 -> maxOffset
-      offset.value = Math.max(0, Math.min(offset.value, maxOffset.value))
+      offset.value = Math.max(0, Math.min(offset.value, maxOffset.value));
       // update the current page
       currentPage.value = props.scrollPerPage
         ? Math.round(offset.value / slideWidth.value / currentPerPage.value)
-        : Math.round(offset.value / slideWidth.value)
-    }
+        : Math.round(offset.value / slideWidth.value);
+    };
     /**
      * Re-compute the width of the carousel and its slides
      */
     const computeCarouselWidth = () => {
-      getSlideCount()
-      getBrowserWidth()
-      getCarouselWidth()
-      setCurrentPageInBounds()
-    }
+      getSlideCount();
+      getBrowserWidth();
+      getCarouselWidth();
+      setCurrentPageInBounds();
+    };
     /**
      * Re-compute the height of the carousel and its slides
      */
     const computeCarouselHeight = () => {
-      getCarouselHeight()
-    }
+      getCarouselHeight();
+    };
     /**
      * When the current page exceeds the carousel bounds, reset it to the maximum allowed
      */
     const setCurrentPageInBounds = () => {
       if (!canAdvanceForward.value && props.scrollPerPage) {
-        const setPage = pageCount.value - 1
-        currentPage.value = setPage >= 0 ? setPage : 0
-        offset.value = Math.max(0, Math.min(offset.value, maxOffset.value))
+        const setPage = pageCount.value - 1;
+        currentPage.value = setPage >= 0 ? setPage : 0;
+        offset.value = Math.max(0, Math.min(offset.value, maxOffset.value));
       }
-    }
+    };
     const handleTransitionStart = () => {
-      ctx.emit('transition-start')
-    }
+      ctx.emit("transition-start");
+    };
     const handleTransitionEnd = () => {
-      ctx.emit('transition-end')
-    }
+      ctx.emit("transition-end");
+    };
     const keyboardEventHandler = ({ keyCode }) => {
-      const isArrowLeft = keyCode === 37
-      const isArrowRight = keyCode === 39
+      const isArrowLeft = keyCode === 37;
+      const isArrowRight = keyCode === 39;
       if (canAdvanceBackward.value && isArrowLeft) {
-        advancePage('backward')
+        advancePage("backward");
       }
       if (canAdvanceForward.value && isArrowRight) {
-        advancePage('forward')
+        advancePage("forward");
       }
-    }
+    };
 
-    provide('carousel', {
+    provide("carousel", {
       isTouch,
       dragStartX,
       minSwipeDistance: props.minSwipeDistance,
       adjustableHeight: props.adjustableHeight,
-    })
+    });
 
-    watch(carouselValue, val => {
+    watch(carouselValue, (val) => {
       if (val !== currentPage.value) {
-        goToPage(val)
-        render()
+        goToPage(val);
+        render();
       }
-    })
+    });
     watch(
       navigateTo,
-      val => {
+      (val) => {
         // checking if val is an array, for arrays typeof returns object
-        if (typeof val === 'object') {
+        if (typeof val === "object") {
           if (val[1] === false) {
             // following code is to disable animation
-            dragging.value = true
+            dragging.value = true;
             // clear dragging after refresh rate
             setTimeout(() => {
-              dragging.value = false
-            }, refreshRate.value)
+              dragging.value = false;
+            }, refreshRate.value);
           }
           nextTick(() => {
-            goToPage(val[0])
-          })
+            goToPage(val[0]);
+          });
         } else {
           nextTick(() => {
-            goToPage(val)
-          })
+            goToPage(val);
+          });
         }
       },
-      { immediate: true },
-    )
-    watch(autoplay, val => {
+      { immediate: true }
+    );
+    watch(autoplay, (val) => {
       if (val) {
-        restartAutoplay()
+        restartAutoplay();
       } else {
-        pauseAutoplay()
+        pauseAutoplay();
       }
-    })
-    watch(currentPage, val => {
-      ctx.emit('page-change', val)
-      ctx.emit('input', val)
-    })
+    });
+    watch(currentPage, (val) => {
+      ctx.emit("page-change", val);
+      ctx.emit("input", val);
+    });
     onMounted(() => {
-      if (!isServer) {
-        if (props.autoplayHoverPause) {
-          vueConciseCarousel.value.addEventListener(
-            'mouseenter',
-            pauseAutoplay,
-            {
-              passive: true,
-            },
-          )
-          vueConciseCarousel.value.addEventListener(
-            'mouseleave',
-            startAutoplay,
-            {
-              passive: true,
-            },
-          )
-        }
+      startAutoplay();
 
-        if (props.keyboard) {
-          window.addEventListener('keydown', keyboardEventHandler, {
-            passive: true,
-          })
-        }
+      if (props.autoplayHoverPause) {
+        vueConciseCarousel.value.addEventListener(
+          "mouseenter",
+          pauseAutoplay,
+          true
+        );
+        vueConciseCarousel.value.addEventListener(
+          "mouseleave",
+          startAutoplay,
+          true
+        );
       }
 
-      startAutoplay()
+      if (props.keyboard) {
+        window.addEventListener("keydown", keyboardEventHandler, true);
+      }
 
-      window.addEventListener('resize', debounce(onResize, refreshRate.value), {
-        passive: true,
-      })
+      window.addEventListener(
+        "resize",
+        debounce(onResize, refreshRate.value),
+        true
+      );
 
       // setup the start event only if touch device or mousedrag activated
       if ((isTouch && props.touchDrag) || props.mouseDrag) {
         vueCarouselWrapper.value.addEventListener(
-          isTouch ? 'touchstart' : 'mousedown',
+          isTouch ? "touchstart" : "mousedown",
           onStart,
-          { passive: true },
-        )
+          true
+        );
       }
 
-      attachMutationObserver()
-      computeCarouselWidth()
-      computeCarouselHeight()
+      attachMutationObserver();
+      computeCarouselWidth();
+      computeCarouselHeight();
 
-      transitionstart.value = getTransitionStart()
+      transitionstart.value = getTransitionStart();
       vueCarouselInner.value.addEventListener(
         transitionstart.value,
         handleTransitionStart,
-        { passive: true },
-      )
-      transitionend.value = getTransitionEnd()
+        true
+      );
+      transitionend.value = getTransitionEnd();
       vueCarouselInner.value.addEventListener(
         transitionend.value,
         handleTransitionEnd,
-        { passive: true },
-      )
+        true
+      );
 
-      ctx.emit('mounted')
+      ctx.emit("mounted");
 
       // when autoplay direction is backward start from the last slide
-      if (props.autoplayDirection === 'backward') {
-        goToLastSlide()
+      if (props.autoplayDirection === "backward") {
+        goToLastSlide();
       }
-    })
+    });
     onBeforeUpdate(() => {
-      computeCarouselWidth()
-    })
+      computeCarouselWidth();
+    });
     onBeforeUnmount(() => {
-      if (!isServer) {
-        if (props.autoplayHoverPause) {
-          vueConciseCarousel.value.removeEventListener(
-            'mouseenter',
-            pauseAutoplay,
-          )
-          vueConciseCarousel.value.removeEventListener(
-            'mouseleave',
-            startAutoplay,
-          )
-        }
-
-        if (props.keyboard) {
-          window.removeEventListener('keydown', keyboardEventHandler)
-        }
+      detachMutationObserver();
+      if (props.autoplayHoverPause) {
+        vueConciseCarousel.value.removeEventListener(
+          "mouseenter",
+          pauseAutoplay
+        );
+        vueConciseCarousel.value.removeEventListener(
+          "mouseleave",
+          startAutoplay
+        );
       }
 
-      detachMutationObserver()
-      window.removeEventListener('resize', getBrowserWidth)
+      if (props.keyboard) {
+        window.removeEventListener("keydown", keyboardEventHandler);
+      }
+      window.removeEventListener("resize", getBrowserWidth);
       vueCarouselInner.value.removeEventListener(
         transitionstart.value,
-        handleTransitionStart,
-      )
+        handleTransitionStart
+      );
       vueCarouselInner.value.removeEventListener(
         transitionend.value,
-        handleTransitionEnd,
-      )
+        handleTransitionEnd
+      );
       vueCarouselWrapper.value.removeEventListener(
-        isTouch ? 'touchstart' : 'mousedown',
-        onStart,
-      )
-    })
+        isTouch ? "touchstart" : "mousedown",
+        onStart
+      );
+    });
 
     return {
       vueConciseCarousel,
@@ -1107,7 +1101,7 @@ export default {
       getCarouselHeight,
       handleNavigation,
       goToPage,
-    }
+    };
   },
-}
+};
 </script>

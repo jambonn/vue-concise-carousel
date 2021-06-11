@@ -1,6 +1,6 @@
 {
   "name": "@jambonn/vue-concise-carousel",
-  "version": "2.1.11",
+  "version": "2.1.12",
   "description": "Vue Concise Carousel is SSR and CSR friendly",
   "keywords": [
     "vue",
@@ -24,6 +24,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "release": "node release.js",
     "build:demo": "vite build --mode demo",
     "build:lib": "vite build --mode lib && yarn build:scss",
     "build:scss": "sass src/scss/index.scss > lib/vue-concise-carousel.css && cleancss -o lib/vue-concise-carousel.min.css lib/vue-concise-carousel.css",
@@ -43,14 +44,17 @@
     "@vitejs/plugin-vue": "^1.1.5",
     "@vue/compiler-sfc": "^3.0.5",
     "@vue/eslint-config-prettier": "^6.0.0",
+    "chalk": "^4.1.1",
     "clean-css-cli": "^5.2.2",
     "eslint": "^7.23.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-vue": "^7.8.0",
+    "execa": "^5.1.1",
     "prettier": "^2.2.1",
     "sass": "^1.32.8",
+    "semver": "^7.3.5",
     "vite": "^2.1.5",
     "vue": "^3.0.11"
   },
