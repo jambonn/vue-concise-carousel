@@ -100,11 +100,21 @@ const main = async () => {
     if (!releaseTag) {
       const { tag } = await prompt({
         type: "select",
-        name: "release",
+        name: "tag",
         message: "Select release type",
         choices: ["next", "latest"].map((i) => `${i}`),
       });
       releaseTag = tag;
+
+      const { yes } = await prompt({
+        type: "confirm",
+        name: "yes",
+        message: `Releasing with --tag ${releaseTag}. Confirm?`,
+      });
+
+      if (!yes) {
+        return;
+      }
     }
 
     // update package versions
