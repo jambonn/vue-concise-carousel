@@ -31,11 +31,10 @@ const updatePackage = (pkgRoot, version) => {
   fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n");
 };
 
-const publishPackage = async (version) => {
+const publishPackage = async (version, tag) => {
   const pkgPath = path.resolve(path.resolve(__dirname, ""), "package.json");
   const pkg = JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
   const pkgName = pkg.name;
-  const releaseTag = args.tag || null;
 
   step(`Publishing ${pkgName}...`);
   try {
@@ -43,7 +42,7 @@ const publishPackage = async (version) => {
       "publish",
       "--new-version",
       version,
-      ...(releaseTag ? ["--tag", releaseTag] : []),
+      ...(tag ? ["--tag", tag] : []),
       "--access",
       "public",
     ]);
@@ -97,6 +96,17 @@ const main = async () => {
       return;
     }
 
+    let releaseTag = args.tag || null;
+    if (!releaseTag) {
+      const { tag } = await prompt({
+        type: "select",
+        name: "release",
+        message: "Select release type",
+        choices: ["next", "latest"].map((i) => `${i}`),
+      });
+      releaseTag = tag;
+    }
+
     // update package versions
     step("\nUpdate package.json...");
     updatePackage(path.resolve(__dirname, ""), targetVersion);
@@ -125,7 +135,7 @@ const main = async () => {
 
     // publish package
     step("\nPublishing package...");
-    await publishPackage(targetVersion);
+    await publishPackage(targetVersion, releaseTag);
 
     // push to GitHub
     step("\nPushing to GitHub...");
