@@ -70,22 +70,22 @@ import {
   onBeforeUpdate,
   onBeforeUnmount,
   watch,
-} from "vue";
-import debounce from "./utils/debounce";
-import Navigation from "./Navigation.vue";
-import Pagination from "./Pagination.vue";
+} from 'vue';
+import debounce from './utils/debounce';
+import Navigation from './Navigation.vue';
+import Pagination from './Pagination.vue';
 
 const transitionStartNames = {
-  onwebkittransitionstart: "webkitTransitionStart",
-  onmoztransitionstart: "transitionstart",
-  onotransitionstart: "oTransitionStart otransitionstart",
-  ontransitionstart: "transitionstart",
+  onwebkittransitionstart: 'webkitTransitionStart',
+  onmoztransitionstart: 'transitionstart',
+  onotransitionstart: 'oTransitionStart otransitionstart',
+  ontransitionstart: 'transitionstart',
 };
 const transitionEndNames = {
-  onwebkittransitionend: "webkitTransitionEnd",
-  onmoztransitionend: "transitionend",
-  onotransitionend: "oTransitionEnd otransitionend",
-  ontransitionend: "transitionend",
+  onwebkittransitionend: 'webkitTransitionEnd',
+  onmoztransitionend: 'transitionend',
+  onotransitionend: 'oTransitionEnd otransitionend',
+  ontransitionend: 'transitionend',
 };
 const getTransitionStart = () => {
   for (let name in transitionStartNames) {
@@ -102,20 +102,20 @@ const getTransitionEnd = () => {
   }
 };
 export default {
-  name: "Carousel",
+  name: 'Carousel',
   components: {
     Navigation,
     Pagination,
   },
   emits: [
-    "mounted",
-    "input",
-    "page-change",
-    "pagination",
-    "navigation-click",
-    "pagination-click",
-    "transition-start",
-    "transition-end",
+    'mounted',
+    'input',
+    'page-change',
+    'pagination',
+    'navigation-click',
+    'pagination-click',
+    'transition-start',
+    'transition-end',
   ],
   props: {
     /**
@@ -147,12 +147,12 @@ export default {
       type: String,
       validator: function (value) {
         return (
-          ["ease", "linear", "ease-in", "ease-out", "ease-in-out"].indexOf(
+          ['ease', 'linear', 'ease-in', 'ease-out', 'ease-in-out'].indexOf(
             value
-          ) !== -1 || value.includes("cubic-bezier")
+          ) !== -1 || value.includes('cubic-bezier')
         );
       },
-      default: "ease",
+      default: 'ease',
     },
     /**
      * Flag to make the carousel loop around when it reaches the end
@@ -210,14 +210,14 @@ export default {
      */
     navigationNextLabel: {
       type: String,
-      default: "&#9654",
+      default: '&#9654',
     },
     /**
      * Text content of the navigation prev button
      */
     navigationPrevLabel: {
       type: String,
-      default: "&#9664",
+      default: '&#9664',
     },
     /**
      * The fill color of the active pagination dot
@@ -225,7 +225,7 @@ export default {
      */
     paginationActiveColor: {
       type: String,
-      default: "#000000",
+      default: '#000000',
     },
     /**
      * The fill color of pagination dots
@@ -233,7 +233,7 @@ export default {
      */
     paginationColor: {
       type: String,
-      default: "#efefef",
+      default: '#efefef',
     },
     /**
      * Flag to render pagination component
@@ -256,7 +256,7 @@ export default {
      */
     paginationPosition: {
       type: String,
-      default: "bottom",
+      default: 'bottom',
     },
     /**
      * The size of each pagination dot
@@ -325,7 +325,7 @@ export default {
      */
     tagName: {
       type: String,
-      default: "slide",
+      default: 'slide',
     },
     /**
      * Support for v-model functionality
@@ -373,7 +373,7 @@ export default {
      */
     autoplayDirection: {
       type: String,
-      default: "forward",
+      default: 'forward',
     },
     /**
      * Flag to navigate slide using keyboard
@@ -392,13 +392,13 @@ export default {
     const dragOffset = ref(0);
     const dragStartY = ref(0);
     const dragStartX = ref(0);
-    const isTouch = typeof window !== "undefined" && "ontouchstart" in window;
+    const isTouch = typeof window !== 'undefined' && 'ontouchstart' in window;
     const offset = ref(0);
     const refreshRate = ref(16);
     const slideCount = ref(0);
-    const transitionstart = ref("transitionstart");
-    const transitionend = ref("transitionend");
-    const currentHeight = ref("auto");
+    const transitionstart = ref('transitionstart');
+    const transitionend = ref('transitionend');
+    const currentHeight = ref('auto');
     const mutationObserver = ref(null);
     const startTime = ref(null);
     const autoplayInterval = ref(null);
@@ -409,9 +409,9 @@ export default {
     const vueCarouselWrapper = ref(null);
     const vueCarouselInner = ref(null);
 
-    const autoplay = toRef(props, "autoplay");
-    const carouselValue = toRef(props, "value");
-    const navigateTo = toRef(props, "navigateTo");
+    const autoplay = toRef(props, 'autoplay');
+    const carouselValue = toRef(props, 'value');
+    const navigateTo = toRef(props, 'navigateTo');
     /**
      * Given a viewport width, find the number of slides to display
      * @param  {Number} width Current viewport width in pixels
@@ -454,7 +454,7 @@ export default {
      * @return {Number} The number of slides per page to display
      */
     const currentPerPage = computed(() => {
-      return !props.perPageCustom || typeof window === "undefined"
+      return !props.perPageCustom || typeof window === 'undefined'
         ? props.perPage
         : breakpointSlidesPerPage.value;
     });
@@ -571,13 +571,13 @@ export default {
      * @param  {String} direction (Optional) The direction to advance
      */
     const advancePage = (direction) => {
-      if (direction && direction === "backward" && canAdvanceBackward.value) {
-        goToPage(getPreviousPage(), "navigation");
+      if (direction && direction === 'backward' && canAdvanceBackward.value) {
+        goToPage(getPreviousPage(), 'navigation');
       } else if (
-        (!direction || (direction && direction !== "backward")) &&
+        (!direction || (direction && direction !== 'backward')) &&
         canAdvanceForward.value
       ) {
-        goToPage(getNextPage(), "navigation");
+        goToPage(getNextPage(), 'navigation');
       }
     };
     const goToLastSlide = () => {
@@ -621,7 +621,7 @@ export default {
         });
         if (vueConciseCarousel.value) {
           const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-            "VueCarousel-inner"
+            'VueCarousel-inner'
           );
           for (let i = 0; i < carouselInnerElements.length; i++) {
             mutationObserver.value.observe(carouselInnerElements[i], config);
@@ -632,7 +632,7 @@ export default {
     const handleNavigation = (direction) => {
       advancePage(direction);
       pauseAutoplay();
-      ctx.emit("navigation-click", direction);
+      ctx.emit('navigation-click', direction);
     };
     /**
      * Stop listening to mutation changes
@@ -657,7 +657,7 @@ export default {
     const getCarouselWidth = () => {
       if (vueConciseCarousel.value) {
         const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-          "VueCarousel-inner"
+          'VueCarousel-inner'
         );
         for (let i = 0; i < carouselInnerElements.length; i++) {
           if (carouselInnerElements[i].clientWidth > 0) {
@@ -673,7 +673,7 @@ export default {
      */
     const getCarouselHeight = () => {
       if (!props.adjustableHeight) {
-        return "auto";
+        return 'auto';
       }
       const slideOffset = currentPerPage.value * (+currentPage.value + 1) - 1;
       const maxSlideHeight = [...Array(currentPerPage.value)]
@@ -685,7 +685,7 @@ export default {
         );
 
       currentHeight.value =
-        maxSlideHeight === 0 ? "auto" : `${maxSlideHeight}px`;
+        maxSlideHeight === 0 ? 'auto' : `${maxSlideHeight}px`;
       return currentHeight.value;
     };
     /**
@@ -695,7 +695,7 @@ export default {
     const getSlideCount = () => {
       if (vueConciseCarousel.value) {
         const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-          "VueCarousel-slide"
+          'VueCarousel-slide'
         );
         slotSlides.value = carouselInnerElements;
         slideCount.value = carouselInnerElements.length;
@@ -731,9 +731,9 @@ export default {
         currentPage.value = page;
         dragMomentum.value = 0;
 
-        if (advanceType === "pagination") {
+        if (advanceType === 'pagination') {
           pauseAutoplay();
-          ctx.emit("pagination-click", page);
+          ctx.emit('pagination-click', page);
         }
       }
     };
@@ -748,9 +748,9 @@ export default {
         return;
       }
 
-      document.addEventListener(isTouch ? "touchend" : "mouseup", onEnd, true);
+      document.addEventListener(isTouch ? 'touchend' : 'mouseup', onEnd, true);
       document.addEventListener(
-        isTouch ? "touchmove" : "mousemove",
+        isTouch ? 'touchmove' : 'mousemove',
         onDrag,
         true
       );
@@ -795,12 +795,12 @@ export default {
       render();
       // clear events listeners
       document.removeEventListener(
-        isTouch ? "touchend" : "mouseup",
+        isTouch ? 'touchend' : 'mouseup',
         onEnd,
         true
       );
       document.removeEventListener(
-        isTouch ? "touchmove" : "mousemove",
+        isTouch ? 'touchmove' : 'mousemove',
         onDrag,
         true
       );
@@ -918,23 +918,23 @@ export default {
       }
     };
     const handleTransitionStart = () => {
-      ctx.emit("transition-start");
+      ctx.emit('transition-start');
     };
     const handleTransitionEnd = () => {
-      ctx.emit("transition-end");
+      ctx.emit('transition-end');
     };
     const keyboardEventHandler = ({ keyCode }) => {
       const isArrowLeft = keyCode === 37;
       const isArrowRight = keyCode === 39;
       if (canAdvanceBackward.value && isArrowLeft) {
-        advancePage("backward");
+        advancePage('backward');
       }
       if (canAdvanceForward.value && isArrowRight) {
-        advancePage("forward");
+        advancePage('forward');
       }
     };
 
-    provide("carousel", {
+    provide('carousel', {
       isTouch,
       dragStartX,
       minSwipeDistance: props.minSwipeDistance,
@@ -951,7 +951,7 @@ export default {
       navigateTo,
       (val) => {
         // checking if val is an array, for arrays typeof returns object
-        if (typeof val === "object") {
+        if (typeof val === 'object') {
           if (val[1] === false) {
             // following code is to disable animation
             dragging.value = true;
@@ -979,31 +979,31 @@ export default {
       }
     });
     watch(currentPage, (val) => {
-      ctx.emit("page-change", val);
-      ctx.emit("input", val);
+      ctx.emit('page-change', val);
+      ctx.emit('input', val);
     });
     onMounted(() => {
       startAutoplay();
 
       if (props.autoplayHoverPause) {
         vueConciseCarousel.value.addEventListener(
-          "mouseenter",
+          'mouseenter',
           pauseAutoplay,
           true
         );
         vueConciseCarousel.value.addEventListener(
-          "mouseleave",
+          'mouseleave',
           startAutoplay,
           true
         );
       }
 
       if (props.keyboard) {
-        window.addEventListener("keydown", keyboardEventHandler, true);
+        window.addEventListener('keydown', keyboardEventHandler, true);
       }
 
       window.addEventListener(
-        "resize",
+        'resize',
         debounce(onResize, refreshRate.value),
         true
       );
@@ -1011,7 +1011,7 @@ export default {
       // setup the start event only if touch device or mousedrag activated
       if ((isTouch && props.touchDrag) || props.mouseDrag) {
         vueCarouselWrapper.value.addEventListener(
-          isTouch ? "touchstart" : "mousedown",
+          isTouch ? 'touchstart' : 'mousedown',
           onStart,
           true
         );
@@ -1034,10 +1034,10 @@ export default {
         true
       );
 
-      ctx.emit("mounted");
+      ctx.emit('mounted');
 
       // when autoplay direction is backward start from the last slide
-      if (props.autoplayDirection === "backward") {
+      if (props.autoplayDirection === 'backward') {
         goToLastSlide();
       }
     });
@@ -1048,19 +1048,19 @@ export default {
       detachMutationObserver();
       if (props.autoplayHoverPause) {
         vueConciseCarousel.value.removeEventListener(
-          "mouseenter",
+          'mouseenter',
           pauseAutoplay
         );
         vueConciseCarousel.value.removeEventListener(
-          "mouseleave",
+          'mouseleave',
           startAutoplay
         );
       }
 
       if (props.keyboard) {
-        window.removeEventListener("keydown", keyboardEventHandler);
+        window.removeEventListener('keydown', keyboardEventHandler);
       }
-      window.removeEventListener("resize", getBrowserWidth);
+      window.removeEventListener('resize', getBrowserWidth);
       vueCarouselInner.value.removeEventListener(
         transitionstart.value,
         handleTransitionStart
@@ -1070,7 +1070,7 @@ export default {
         handleTransitionEnd
       );
       vueCarouselWrapper.value.removeEventListener(
-        isTouch ? "touchstart" : "mousedown",
+        isTouch ? 'touchstart' : 'mousedown',
         onStart
       );
     });

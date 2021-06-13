@@ -40,6 +40,6 @@
 
 <script>
 export default {
-  name: "ExampleScrollPerPage",
+  name: 'ExampleScrollPerPage',
 };
 </script>

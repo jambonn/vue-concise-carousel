@@ -22,13 +22,13 @@ import {
   computed,
   onMounted,
   onBeforeUnmount,
-} from "vue";
+} from 'vue';
 
 export default {
-  name: "Slide",
-  emits: ["slide-click"],
+  name: 'Slide',
+  emits: ['slide-click'],
   setup(props, ctx) {
-    const carousel = inject("carousel");
+    const carousel = inject('carousel');
 
     // Ref template
     const vueCarouselSlide = ref(null);
@@ -47,32 +47,30 @@ export default {
         carousel.minSwipeDistance === 0 ||
         Math.abs(deltaX) < carousel.minSwipeDistance
       ) {
-        ctx.emit("slide-click", Object.assign({}, e.currentTarget.dataset));
+        ctx.emit('slide-click', Object.assign({}, e.currentTarget.dataset));
       }
     };
 
     onMounted(() => {
       nextTick(() => {
-        vueCarouselSlide.value.addEventListener("dragstart", (e) =>
+        vueCarouselSlide.value.addEventListener('dragstart', (e) =>
           e.preventDefault()
         );
         vueCarouselSlide.value.addEventListener(
-          carousel.isTouch ? "touchend" : "mouseup",
+          carousel.isTouch ? 'touchend' : 'mouseup',
           onTouchEnd,
           true
         );
       });
     });
     onBeforeUnmount(() => {
-      nextTick(() => {
-        vueCarouselSlide.value.removeEventListener("dragstart", (e) =>
-          e.preventDefault()
-        );
-        vueCarouselSlide.value.removeEventListener(
-          carousel.isTouch ? "touchend" : "mouseup",
-          onTouchEnd
-        );
-      });
+      vueCarouselSlide.value.removeEventListener('dragstart', (e) =>
+        e.preventDefault()
+      );
+      vueCarouselSlide.value.removeEventListener(
+        carousel.isTouch ? 'touchend' : 'mouseup',
+        onTouchEnd
+      );
     });
 
     return {

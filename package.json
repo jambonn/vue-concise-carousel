@@ -1,6 +1,6 @@
 {
   "name": "@jambonn/vue-concise-carousel",
-  "version": "2.1.13",
+  "version": "2.1.14",
   "description": "Vue Concise Carousel is SSR and CSR friendly",
   "keywords": [
     "vue",
@@ -25,8 +25,8 @@
   "scripts": {
     "dev": "vite",
     "release": "node release.js",
-    "build:demo": "vite build --mode demo",
-    "build:lib": "vite build --mode lib && yarn build:scss",
+    "build:demo": "NODE_ENV=production vite build --mode demo",
+    "build:lib": "NODE_ENV=production vite build --mode lib && yarn build:scss",
     "build:scss": "sass src/scss/index.scss > lib/vue-concise-carousel.css && cleancss -o lib/vue-concise-carousel.min.css lib/vue-concise-carousel.css",
     "serve": "vite preview"
   },
@@ -37,12 +37,14 @@
   "style": "lib/vue-concise-carousel.min.css",
   "files": [
     "lib",
-    "src"
+    "src/index.js",
+    "src/utils",
+    "src/*.vue"
   ],
   "dependencies": {},
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.1.5",
-    "@vue/compiler-sfc": "^3.0.5",
+    "@vitejs/plugin-vue": "^1.2.3",
+    "@vue/compiler-sfc": "^3.1.1",
     "@vue/eslint-config-prettier": "^6.0.0",
     "chalk": "^4.1.1",
     "clean-css-cli": "^5.2.2",
@@ -55,8 +57,8 @@
     "prettier": "^2.2.1",
     "sass": "^1.32.8",
     "semver": "^7.3.5",
-    "vite": "^2.1.5",
-    "vue": "^3.0.11"
+    "vite": "^2.3.7",
+    "vue": "^3.1.1"
   },
   "peerDependencies": {
     "vue": "^3.0.11"

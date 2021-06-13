@@ -1,24 +1,24 @@
-import path from 'path'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import path from 'path';
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
 
 // https://vitejs.dev/config/
 export default ({ command, mode }) => {
-  const isProd = command === 'build'
-  const isDemo = mode === 'demo'
+  const isProd = command === 'build';
+  const isDemo = mode === 'demo';
   const config = {
     server: {
       port: 8080,
     },
     plugins: [vue()],
-  }
+  };
 
   if (!isProd || isDemo) {
-    config.root = `${process.cwd()}/demo`
+    config.root = `${process.cwd()}/demo`;
     config.build = {
       outDir: `${process.cwd()}/dist`,
       emptyOutDir: true,
-    }
+    };
   }
 
   if (isProd && !isDemo) {
@@ -38,8 +38,8 @@ export default ({ command, mode }) => {
         name: 'VueConciseCarousel',
         formats: ['es', 'cjs', 'umd'],
       },
-    }
+    };
   }
 
-  return defineConfig(config)
-}
+  return defineConfig(config);
+};

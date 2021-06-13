@@ -29,8 +29,8 @@
 
 <script>
 export default {
-  name: "Navigation",
-  emits: ["navigation-click"],
+  name: 'Navigation',
+  emits: ['navigation-click'],
   props: {
     clickTargetSize: {
       type: Number,
@@ -38,11 +38,11 @@ export default {
     },
     nextLabel: {
       type: String,
-      default: "&#9654",
+      default: '&#9654',
     },
     prevLabel: {
       type: String,
-      default: "&#9664",
+      default: '&#9664',
     },
     canAdvanceForward: {
       type: Boolean,

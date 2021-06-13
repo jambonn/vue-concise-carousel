@@ -103,11 +103,11 @@
   </div>
 </template>
 <script>
-import ExampleBasic from "./ExampleBasic.vue";
-import ExampleResponsive from "./ExampleResponsive.vue";
-import ExampleScrollPerPage from "./ExampleScrollPerPage.vue";
+import ExampleBasic from './ExampleBasic.vue';
+import ExampleResponsive from './ExampleResponsive.vue';
+import ExampleScrollPerPage from './ExampleScrollPerPage.vue';
 export default {
-  name: "App",
+  name: 'App',
   components: { ExampleBasic, ExampleResponsive, ExampleScrollPerPage },
   setup() {
     return { slideCount: 6 };
@@ -117,8 +117,8 @@ export default {
 
 <style lang="css">
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -142,7 +142,7 @@ body {
     max-width: 1185px;
   }
 }
-pre[class*="language-"] {
+pre[class*='language-'] {
   background: #2d2d2d;
   padding: 1em;
   margin: 0.5em 0;
@@ -170,7 +170,7 @@ code {
 }
 code:before,
 code:after {
-  content: " ";
+  content: ' ';
   letter-spacing: -1px;
 }
 .token.block-comment,
