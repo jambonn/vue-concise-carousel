@@ -1,6 +1,6 @@
 {
   "name": "@jambonn/vue-concise-carousel",
-  "version": "2.1.16",
+  "version": "2.1.17",
   "description": "Vue Concise Carousel is SSR and CSR friendly",
   "keywords": [
     "vue",
@@ -37,8 +37,9 @@
   "style": "lib/vue-concise-carousel.min.css",
   "files": [
     "lib",
-    "src",
-    "!src/scss"
+    "src/utils",
+    "src/*.js",
+    "src/*.vue"
   ],
   "dependencies": {},
   "devDependencies": {
