@@ -1000,7 +1000,8 @@ export default {
       if ((isTouch && props.touchDrag) || props.mouseDrag) {
         vueCarouselWrapper.value.addEventListener(
           isTouch ? 'touchstart' : 'mousedown',
-          onStart
+          onStart,
+          true
         );
       }
 
@@ -1056,7 +1057,8 @@ export default {
       );
       vueCarouselWrapper.value.removeEventListener(
         isTouch ? 'touchstart' : 'mousedown',
-        onStart
+        onStart,
+        true
       );
     });
 
