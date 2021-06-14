@@ -58,8 +58,7 @@ export default {
         );
         vueCarouselSlide.value.addEventListener(
           carousel.isTouch ? 'touchend' : 'mouseup',
-          onTouchEnd,
-          true
+          onTouchEnd
         );
       });
     });
@@ -69,8 +68,7 @@ export default {
       );
       vueCarouselSlide.value.removeEventListener(
         carousel.isTouch ? 'touchend' : 'mouseup',
-        onTouchEnd,
-        true
+        onTouchEnd
       );
     });
 
