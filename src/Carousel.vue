@@ -986,34 +986,21 @@ export default {
       startAutoplay();
 
       if (props.autoplayHoverPause) {
-        vueConciseCarousel.value.addEventListener(
-          'mouseenter',
-          pauseAutoplay,
-          true
-        );
-        vueConciseCarousel.value.addEventListener(
-          'mouseleave',
-          startAutoplay,
-          true
-        );
+        vueConciseCarousel.value.addEventListener('mouseenter', pauseAutoplay);
+        vueConciseCarousel.value.addEventListener('mouseleave', startAutoplay);
       }
 
       if (props.keyboard) {
-        window.addEventListener('keydown', keyboardEventHandler, true);
+        window.addEventListener('keydown', keyboardEventHandler);
       }
 
-      window.addEventListener(
-        'resize',
-        debounce(onResize, refreshRate.value),
-        true
-      );
+      window.addEventListener('resize', debounce(onResize, refreshRate.value));
 
       // setup the start event only if touch device or mousedrag activated
       if ((isTouch && props.touchDrag) || props.mouseDrag) {
         vueCarouselWrapper.value.addEventListener(
           isTouch ? 'touchstart' : 'mousedown',
-          onStart,
-          true
+          onStart
         );
       }
 
@@ -1024,14 +1011,12 @@ export default {
       transitionstart.value = getTransitionStart();
       vueCarouselInner.value.addEventListener(
         transitionstart.value,
-        handleTransitionStart,
-        true
+        handleTransitionStart
       );
       transitionend.value = getTransitionEnd();
       vueCarouselInner.value.addEventListener(
         transitionend.value,
-        handleTransitionEnd,
-        true
+        handleTransitionEnd
       );
 
       ctx.emit('mounted');

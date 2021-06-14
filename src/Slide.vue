@@ -58,8 +58,7 @@ export default {
         );
         vueCarouselSlide.value.addEventListener(
           carousel.isTouch ? 'touchend' : 'mouseup',
-          onTouchEnd,
-          true
+          onTouchEnd
         );
       });
     });

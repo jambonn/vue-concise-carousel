@@ -9,6 +9,7 @@ export default ({ command, mode }) => {
   const config = {
     server: {
       port: 8080,
+      host: '0.0.0.0',
     },
     plugins: [vue()],
   };
