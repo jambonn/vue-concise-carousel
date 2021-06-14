@@ -1000,7 +1000,8 @@ export default {
       if ((isTouch && props.touchDrag) || props.mouseDrag) {
         vueCarouselWrapper.value.addEventListener(
           isTouch ? 'touchstart' : 'mousedown',
-          onStart
+          onStart,
+          { passive: true }
         );
       }
 
@@ -1011,14 +1012,12 @@ export default {
       transitionstart.value = getTransitionStart();
       vueCarouselInner.value.addEventListener(
         transitionstart.value,
-        handleTransitionStart,
-        true
+        handleTransitionStart
       );
       transitionend.value = getTransitionEnd();
       vueCarouselInner.value.addEventListener(
         transitionend.value,
-        handleTransitionEnd,
-        true
+        handleTransitionEnd
       );
 
       ctx.emit('mounted');
@@ -1050,17 +1049,16 @@ export default {
       window.removeEventListener('resize', getBrowserWidth);
       vueCarouselInner.value.removeEventListener(
         transitionstart.value,
-        handleTransitionStart,
-        true
+        handleTransitionStart
       );
       vueCarouselInner.value.removeEventListener(
         transitionend.value,
-        handleTransitionEnd,
-        true
+        handleTransitionEnd
       );
       vueCarouselWrapper.value.removeEventListener(
         isTouch ? 'touchstart' : 'mousedown',
-        onStart
+        onStart,
+        true
       );
     });
 
