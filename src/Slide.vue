@@ -7,6 +7,7 @@
       'VueCarousel-slide',
       {
         'VueCarousel-slide-adjustableHeight': isAdjustableHeight,
+        'VueCarousel-slide-adjust': adjust,
       },
     ]"
   >
@@ -27,6 +28,12 @@ import {
 export default {
   name: 'Slide',
   emits: ['slide-click'],
+  props: {
+    adjust: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup(props, ctx) {
     const carousel = inject('carousel');
 

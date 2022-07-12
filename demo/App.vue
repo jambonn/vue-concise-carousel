@@ -85,6 +85,7 @@
       <example-basic />
       <example-responsive />
       <example-scroll-per-page />
+      <example-adjust />
     </div>
     <div id="license" class="container">
       <h2 style="border-bottom: 1px solid #eaecef; padding-bottom: 0.3em">
@@ -106,9 +107,15 @@
 import ExampleBasic from './ExampleBasic.vue';
 import ExampleResponsive from './ExampleResponsive.vue';
 import ExampleScrollPerPage from './ExampleScrollPerPage.vue';
+import ExampleAdjust from './ExampleAdjust.vue';
 export default {
   name: 'App',
-  components: { ExampleBasic, ExampleResponsive, ExampleScrollPerPage },
+  components: {
+    ExampleBasic,
+    ExampleResponsive,
+    ExampleScrollPerPage,
+    ExampleAdjust,
+  },
   setup() {
     return { slideCount: 6 };
   },
