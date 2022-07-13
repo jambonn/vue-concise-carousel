@@ -72,6 +72,7 @@ import {
   watch,
 } from 'vue';
 import debounce from './utils/debounce';
+import delay from './utils/delay';
 import Navigation from './Navigation.vue';
 import Pagination from './Pagination.vue';
 
@@ -403,6 +404,7 @@ export default {
     const startTime = ref(null);
     const autoplayInterval = ref(null);
     const slotSlides = ref([]);
+    const isFinishSlideAdjust = ref(false);
 
     // Ref template
     const vueConciseCarousel = ref(null);
@@ -694,8 +696,8 @@ export default {
      */
     const getSlideCount = () => {
       if (vueConciseCarousel.value) {
-        const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-          'VueCarousel-slide'
+        const carouselInnerElements = vueConciseCarousel.value.querySelectorAll(
+          '.VueCarousel-slide:not(.VueCarousel-slide-adjust)'
         );
         slotSlides.value = carouselInnerElements;
         slideCount.value = carouselInnerElements.length;
@@ -715,8 +717,20 @@ export default {
      * @param  {Number} page The value of the new page number
      * @param  {string|undefined} advanceType An optional value describing the type of page advance
      */
-    const goToPage = (page, advanceType) => {
+    const goToPage = async (page, advanceType) => {
       if (page >= 0 && page <= pageCount.value) {
+        if (hasVueCarouselSlideAdjust.value && !isFinishSlideAdjust.value) {
+          if (page === navigateTo.value) {
+            currentPage.value = navigateTo.value;
+            return;
+          }
+
+          dragging.value = true;
+          handleVueCarouselSlideAdjust();
+          await delay(refreshRate.value);
+          dragging.value = false;
+        }
+
         offset.value = props.scrollPerPage
           ? Math.min(
               slideWidth.value * currentPerPage.value * page,
@@ -810,6 +824,15 @@ export default {
      * @param  {Object} e The event object
      */
     const onDrag = (e) => {
+      if (
+        hasVueCarouselSlideAdjust.value &&
+        !isFinishSlideAdjust.value &&
+        currentPage.value > 0
+      ) {
+        handleVueCarouselSlideAdjust();
+        return;
+      }
+
       const eventPosX = isTouch ? e.touches[0].clientX : e.clientX;
       const eventPosY = isTouch ? e.touches[0].clientY : e.clientY;
       const newOffsetX = dragStartX.value - eventPosX;
@@ -934,6 +957,39 @@ export default {
       }
     };
 
+    const hasVueCarouselSlideAdjust = computed(() => {
+      if (vueConciseCarousel.value) {
+        return (
+          vueConciseCarousel.value.querySelector(
+            '.VueCarousel-slide-adjust'
+          ) !== null
+        );
+      }
+
+      return false;
+    });
+
+    const handleVueCarouselSlideAdjust = () => {
+      if (hasVueCarouselSlideAdjust.value && !isFinishSlideAdjust.value) {
+        if (currentPage.value > 0) {
+          offset.value = props.scrollPerPage
+            ? Math.min(
+                slideWidth.value * currentPerPage.value * currentPage.value,
+                maxOffset.value
+              )
+            : slideWidth.value * currentPage.value;
+        }
+
+        const element = vueConciseCarousel.value.querySelector(
+          '.VueCarousel-slide-adjust'
+        );
+        if (element) {
+          element.parentElement.removeChild(element);
+        }
+        isFinishSlideAdjust.value = true;
+      }
+    };
+
     provide('carousel', {
       isTouch,
       dragStartX,
@@ -947,6 +1003,7 @@ export default {
         render();
       }
     });
+
     watch(
       navigateTo,
       (val) => {
@@ -981,6 +1038,9 @@ export default {
     watch(currentPage, (val) => {
       ctx.emit('page-change', val);
       ctx.emit('input', val);
+      if (currentPage.value !== navigateTo.value) {
+        handleVueCarouselSlideAdjust();
+      }
     });
     onMounted(() => {
       startAutoplay();
