@@ -729,7 +729,6 @@ export default {
           handleVueCarouselSlideAdjust();
           await delay(refreshRate.value);
           dragging.value = false;
-          await delay(refreshRate.value);
         }
 
         offset.value = props.scrollPerPage
