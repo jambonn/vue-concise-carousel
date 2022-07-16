@@ -64,7 +64,6 @@ import {
   ref,
   nextTick,
   provide,
-  toRef,
   computed,
   onMounted,
   onBeforeUpdate,
@@ -404,15 +403,13 @@ export default {
     const autoplayInterval = ref(null);
     const slotSlides = ref([]);
     const isFinishSlideAdjust = ref(false);
+    const isFirstTimeIgnoreOffset = ref(true);
 
     // Ref template
     const vueConciseCarousel = ref(null);
     const vueCarouselWrapper = ref(null);
     const vueCarouselInner = ref(null);
 
-    const autoplay = toRef(props, 'autoplay');
-    const carouselValue = toRef(props, 'value');
-    const navigateTo = toRef(props, 'navigateTo');
     /**
      * Given a viewport width, find the number of slides to display
      * @param  {Number} width Current viewport width in pixels
@@ -536,7 +533,7 @@ export default {
       }
     };
     const startAutoplay = () => {
-      if (autoplay.value) {
+      if (props.autoplay) {
         autoplayInterval.value = setInterval(
           autoplayAdvancePage,
           props.autoplayTimeout
@@ -718,8 +715,14 @@ export default {
      * @param  {string|undefined} advanceType An optional value describing the type of page advance
      */
     const goToPage = (page, advanceType) => {
-      if (page >= 0 && page <= pageCount.value) {
+      if (page >= 0 && page <= (pageCount.value || props.value)) {
         if (hasVueCarouselSlideAdjust.value && !isFinishSlideAdjust.value) {
+          if (isFirstTimeIgnoreOffset.value && page === props.navigateTo) {
+            currentPage.value = props.navigateTo;
+            isFirstTimeIgnoreOffset.value = false;
+            return;
+          }
+
           dragging.value = true;
           handleVueCarouselSlideAdjust();
           // clear dragging after refresh rate
@@ -735,7 +738,7 @@ export default {
             )
           : slideWidth.value * page;
         // restart autoplay if specified
-        if (autoplay.value && !props.autoplayHoverPause) {
+        if (props.autoplay && !props.autoplayHoverPause) {
           restartAutoplay();
         }
         // update the current page
@@ -777,7 +780,7 @@ export default {
      */
     const onEnd = (e) => {
       // restart autoplay if specified
-      if (autoplay.value && !props.autoplayHoverPause) {
+      if (props.autoplay && !props.autoplayHoverPause) {
         restartAutoplay();
       }
 
@@ -994,15 +997,18 @@ export default {
       adjustableHeight: props.adjustableHeight,
     });
 
-    watch(carouselValue, (val) => {
-      if (val !== currentPage.value) {
-        goToPage(val);
-        render();
+    watch(
+      () => props.value,
+      (val) => {
+        if (val !== currentPage.value) {
+          goToPage(val);
+          render();
+        }
       }
-    });
+    );
 
     watch(
-      navigateTo,
+      () => props.navigateTo,
       (val) => {
         // checking if val is an array, for arrays typeof returns object
         if (typeof val === 'object') {
@@ -1025,17 +1031,25 @@ export default {
       },
       { immediate: true }
     );
-    watch(autoplay, (val) => {
-      if (val) {
-        restartAutoplay();
-      } else {
-        pauseAutoplay();
+    watch(
+      () => props.autoplay,
+      (val) => {
+        if (val) {
+          restartAutoplay();
+        } else {
+          pauseAutoplay();
+        }
       }
-    });
+    );
     watch(currentPage, (val) => {
+      // Not emit when refs not binding data
+      if (!vueConciseCarousel.value) {
+        return;
+      }
+
       ctx.emit('page-change', val);
       ctx.emit('input', val);
-      if (currentPage.value !== navigateTo.value) {
+      if (currentPage.value !== props.navigateTo) {
         handleVueCarouselSlideAdjust();
       }
     });
