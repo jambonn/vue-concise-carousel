@@ -486,10 +486,11 @@ export default {
      * @return {Number} Number of pages
      */
     const pageCount = computed(() => {
-      const count = slideCount.value || props.value;
-      return props.scrollPerPage
-        ? Math.ceil(count / currentPerPage.value)
-        : count - currentPerPage.value + 1;
+      return getPageCount(
+        props.scrollPerPage,
+        slideCount.value,
+        currentPerPage.value
+      );
     });
     /**
      * Calculate the width of each slide
@@ -527,6 +528,11 @@ export default {
       return padding > 0 ? padding : false;
     });
 
+    const getPageCount = (scrollPerPage, count, currentPerPage) => {
+      return scrollPerPage
+        ? Math.ceil(count / currentPerPage)
+        : count - currentPerPage + 1;
+    };
     const pauseAutoplay = () => {
       if (autoplayInterval.value) {
         clearInterval(autoplayInterval.value);
@@ -716,7 +722,12 @@ export default {
      * @param  {string|undefined} advanceType An optional value describing the type of page advance
      */
     const goToPage = (page, advanceType) => {
-      if (page >= 0 && page <= pageCount.value) {
+      const pageCount = getPageCount(
+        props.scrollPerPage,
+        slideCount.value || props.value,
+        currentPerPage.value
+      );
+      if (page >= 0 && page <= pageCount) {
         if (hasVueCarouselSlideAdjust.value && !isFinishSlideAdjust.value) {
           if (isFirstTimeIgnoreOffset.value && page === props.navigateTo) {
             currentPage.value = props.navigateTo;
@@ -997,16 +1008,6 @@ export default {
       minSwipeDistance: props.minSwipeDistance,
       adjustableHeight: props.adjustableHeight,
     });
-
-    watch(
-      () => props.value,
-      (val) => {
-        if (val !== currentPage.value) {
-          goToPage(val);
-          render();
-        }
-      }
-    );
 
     watch(
       () => props.navigateTo,
