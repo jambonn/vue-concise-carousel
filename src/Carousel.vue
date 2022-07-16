@@ -72,7 +72,6 @@ import {
   watch,
 } from 'vue';
 import debounce from './utils/debounce';
-import delay from './utils/delay';
 import Navigation from './Navigation.vue';
 import Pagination from './Pagination.vue';
 
@@ -532,7 +531,8 @@ export default {
 
     const pauseAutoplay = () => {
       if (autoplayInterval.value) {
-        autoplayInterval.value = clearInterval(autoplayInterval.value);
+        clearInterval(autoplayInterval.value);
+        autoplayInterval.value = null;
       }
     };
     const startAutoplay = () => {
@@ -717,18 +717,15 @@ export default {
      * @param  {Number} page The value of the new page number
      * @param  {string|undefined} advanceType An optional value describing the type of page advance
      */
-    const goToPage = async (page, advanceType) => {
+    const goToPage = (page, advanceType) => {
       if (page >= 0 && page <= pageCount.value) {
         if (hasVueCarouselSlideAdjust.value && !isFinishSlideAdjust.value) {
-          if (page === navigateTo.value) {
-            currentPage.value = navigateTo.value;
-            return;
-          }
-
           dragging.value = true;
           handleVueCarouselSlideAdjust();
-          await delay(refreshRate.value);
-          dragging.value = false;
+          // clear dragging after refresh rate
+          setTimeout(() => {
+            dragging.value = false;
+          }, refreshRate.value);
         }
 
         offset.value = props.scrollPerPage
