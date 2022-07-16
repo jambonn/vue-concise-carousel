@@ -486,9 +486,10 @@ export default {
      * @return {Number} Number of pages
      */
     const pageCount = computed(() => {
+      const count = slideCount.value || props.value;
       return props.scrollPerPage
-        ? Math.ceil(slideCount.value / currentPerPage.value)
-        : slideCount.value - currentPerPage.value + 1;
+        ? Math.ceil(count / currentPerPage.value)
+        : count - currentPerPage.value + 1;
     });
     /**
      * Calculate the width of each slide
@@ -715,7 +716,7 @@ export default {
      * @param  {string|undefined} advanceType An optional value describing the type of page advance
      */
     const goToPage = (page, advanceType) => {
-      if (page >= 0 && page <= (pageCount.value || props.value)) {
+      if (page >= 0 && page <= pageCount.value) {
         if (hasVueCarouselSlideAdjust.value && !isFinishSlideAdjust.value) {
           if (isFirstTimeIgnoreOffset.value && page === props.navigateTo) {
             currentPage.value = props.navigateTo;
