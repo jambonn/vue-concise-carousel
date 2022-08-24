@@ -662,12 +662,13 @@ export default {
      */
     const getCarouselWidth = () => {
       if (vueConciseCarousel.value) {
-        const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
+        const elements = vueConciseCarousel.value.getElementsByClassName(
           'VueCarousel-inner'
         );
-        for (let i = 0; i < carouselInnerElements.length; i++) {
-          if (carouselInnerElements[i].clientWidth > 0) {
-            carouselWidth.value = carouselInnerElements[i].clientWidth || 0;
+        for (let i = 0; i < elements.length; i++) {
+          const width = elements[i].getBoundingClientRect().width || 0;
+          if (width > 0) {
+            carouselWidth.value = width;
           }
         }
       }
