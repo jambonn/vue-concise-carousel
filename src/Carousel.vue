@@ -381,6 +381,13 @@ export default {
       type: Boolean,
       default: false,
     },
+    /**
+     * Flag to resize observer event
+     */
+    resizeObserver: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, ctx) {
     const browserWidth = ref(null);
@@ -399,6 +406,7 @@ export default {
     const transitionend = ref('transitionend');
     const currentHeight = ref('auto');
     const mutationObserver = ref(null);
+    const resizeObserver = ref(null);
     const startTime = ref(null);
     const autoplayInterval = ref(null);
     const slotSlides = ref([]);
@@ -633,6 +641,21 @@ export default {
             mutationObserver.value.observe(carouselInnerElements[i], config);
           }
         }
+      }
+    };
+    const attachResizeObserver = () => {
+      if (props.resizeObserver) {
+        resizeObserver.value = new ResizeObserver(() => {
+          onResize();
+        });
+        if (vueConciseCarousel.value) {
+          resizeObserver.value.observe(vueConciseCarousel.value);
+        }
+      }
+    };
+    const detachResizeObserver = () => {
+      if (resizeObserver.value) {
+        resizeObserver.value.disconnect();
       }
     };
     const handleNavigation = (direction) => {
@@ -1080,6 +1103,7 @@ export default {
       }
 
       attachMutationObserver();
+      attachResizeObserver();
       computeCarouselWidth();
       computeCarouselHeight();
 
@@ -1106,6 +1130,7 @@ export default {
     });
     onBeforeUnmount(() => {
       detachMutationObserver();
+      detachResizeObserver();
       if (props.autoplayHoverPause) {
         vueConciseCarousel.value.removeEventListener(
           'mouseenter',
