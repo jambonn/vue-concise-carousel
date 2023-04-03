@@ -14,14 +14,14 @@
       :style="dotContainerStyle"
     >
       <button
-        v-for="(page, index) in paginationCount"
+        v-for="(page, index) in 5"
         :key="`${page}_${index}`"
         aria-hidden="false"
         role="tab"
-        :aria-selected="isCurrentDot(index) ? 'true' : 'false'"
+        :aria-selected="isCurrentDotV2(index) ? 'true' : 'false'"
         :class="[
           'VueCarousel-dot',
-          { 'VueCarousel-dot--active': isCurrentDot(index) },
+          { 'VueCarousel-dot--active': isCurrentDotV2(index) },
         ]"
         @click.prevent="goToPage(index)"
         :style="dotStyle(index)"
@@ -81,6 +81,10 @@ export default {
       type: Number,
       default: 0,
     },
+    maxDot: {
+      type: Number,
+      default: 5,
+    },
   },
   setup(props, ctx) {
     const paginationPositionModifierName = computed(() => {
@@ -91,6 +95,25 @@ export default {
       }
       return paginationPosition;
     });
+    // currentPage -> dotPost
+    const mapDotPositionToIndexSlide = () => {
+      let mappingDotPosToSlide = {};
+      const totalSlide = props.scrollPerPage
+        ? props.pageCount
+        : props.slideCount;
+
+      for (let slideKey = 0; slideKey < totalSlide; slideKey++) {
+        mappingDotPosToSlide[slideKey] = slideKey % props.maxDot;
+      }
+      return mappingDotPosToSlide;
+    };
+    const isCurrentDotV2 = (dotPos) => {
+      const mapping = mapDotPositionToIndexSlide();
+      if (Object.keys(mapping).length > 0) {
+        return dotPos === mapDotPositionToIndexSlide()[props.currentPage];
+      }
+      return false;
+    };
     const paginationPropertyBasedOnPosition = computed(() => {
       return props.paginationPosition.indexOf('top') >= 0 ? 'bottom' : 'top';
     });
@@ -149,7 +172,7 @@ export default {
         width: `${props.paginationSize}px`,
         height: `${props.paginationSize}px`,
         'background-color': `${
-          isCurrentDot(index)
+          isCurrentDotV2(index)
             ? props.paginationActiveColor
             : props.paginationColor
         }`,
@@ -179,6 +202,7 @@ export default {
       goToPage,
       isCurrentDot,
       dotStyle,
+      isCurrentDotV2,
     };
   },
 };
