@@ -45,6 +45,7 @@
         :paginationPosition="paginationPosition"
         :scrollPerPage="scrollPerPage"
         :maxPaginationDotCount="maxPaginationDotCount"
+        :paginationDotBorder="paginationDotBorder"
         :paginationPadding="paginationPadding"
         :paginationSize="paginationSize"
         :paginationActiveColor="paginationActiveColor"
@@ -387,6 +388,13 @@ export default {
     resizeObserver: {
       type: Boolean,
       default: false,
+    },
+    /**
+     * Flag use resize observer event
+     */
+    paginationDotBorder: {
+        type: Number,
+        default: 0,
     },
   },
   setup(props, ctx) {

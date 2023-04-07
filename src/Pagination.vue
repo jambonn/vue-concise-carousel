@@ -81,6 +81,10 @@ export default {
       type: Number,
       default: 0,
     },
+    paginationDotBorder: {
+      type: Number,
+      default: 0,
+    },
   },
   setup(props, ctx) {
     const paginationPositionModifierName = computed(() => {
@@ -104,7 +108,7 @@ export default {
         };
       const doublePadding = props.paginationPadding * 2;
       const containerWidth =
-        props.maxPaginationDotCount * (props.paginationSize + doublePadding);
+        props.maxPaginationDotCount * (props.paginationSize + props.paginationDotBorder + doublePadding);
       return {
         'margin-top': `${props.paginationPadding * 2}px`,
         overflow: 'hidden',
