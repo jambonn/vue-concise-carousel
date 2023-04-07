@@ -383,7 +383,7 @@ export default {
       default: false,
     },
     /**
-     * Flag to resize observer event
+     * Flag use resize observer event
      */
     resizeObserver: {
       type: Boolean,
@@ -420,6 +420,7 @@ export default {
     const slotSlides = ref([]);
     const isFinishSlideAdjust = ref(false);
     const isFirstTimeIgnoreOffset = ref(true);
+    const resizeObserver = ref(null);
 
     // Ref template
     const vueConciseCarousel = ref(null);
@@ -1031,6 +1032,19 @@ export default {
           element.parentElement.removeChild(element);
         }
         isFinishSlideAdjust.value = true;
+      }
+    };
+
+    const attachResizeObserver = () => {
+      if (props.resizeObserver && vueConciseCarousel.value) {
+        resizeObserver.value = new ResizeObserver(() => onResize());
+        resizeObserver.value.observe(vueConciseCarousel.value);
+      }
+    };
+
+    const detachResizeObserver = () => {
+      if (resizeObserver.value) {
+        resizeObserver.value.disconnect();
       }
     };
 
