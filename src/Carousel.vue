@@ -393,7 +393,7 @@ export default {
      */
     partialView: {
       type: Boolean,
-      default: true,
+      default: false,
     },
     /**
      * Percent width of slide when active partial view
