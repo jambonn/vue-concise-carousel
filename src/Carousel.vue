@@ -749,6 +749,7 @@ export default {
      * @param  {string|undefined} advanceType An optional value describing the type of page advance
      */
     const goToPage = (page, advanceType) => {
+      getSlideCount();
       const pageCount = getPageCount(
           props.scrollPerPage,
           slideCount.value || props.value,
@@ -1214,7 +1215,6 @@ export default {
       canAdvanceBackward,
       restartAutoplay,
       pauseAutoplay,
-      getSlideCount,
       computeCarouselHeight,
       getCarouselHeight,
       handleNavigation,
