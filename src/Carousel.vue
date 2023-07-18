@@ -1,19 +1,19 @@
 <template>
   <div
-      ref="vueConciseCarousel"
-      :class="[
+    ref="vueConciseCarousel"
+    :class="[
       'VueCarousel',
       { 'VueCarousel--reverse': paginationPosition === 'top' },
     ]"
   >
     <div class="VueCarousel-wrapper" ref="vueCarouselWrapper">
       <div
-          ref="vueCarouselInner"
-          :class="[
+        ref="vueCarouselInner"
+        :class="[
           'VueCarousel-inner',
           { 'VueCarousel-inner--center': isCenterModeEnabled },
         ]"
-          :style="{
+        :style="{
           transform: `translate(${currentOffset}px, 0)`,
           transition: dragging ? 'none' : transitionStyle,
           'ms-flex-preferred-size': `${slideWidth}px`,
@@ -31,29 +31,29 @@
 
     <slot name="navigation" v-if="navigationEnabled && isNavigationRequired">
       <Navigation
-          :clickTargetSize="navigationClickTargetSize"
-          :nextLabel="navigationNextLabel"
-          :prevLabel="navigationPrevLabel"
-          :canAdvanceForward="canAdvanceForward"
-          :canAdvanceBackward="canAdvanceBackward"
-          @navigation-click="handleNavigation"
+        :clickTargetSize="navigationClickTargetSize"
+        :nextLabel="navigationNextLabel"
+        :prevLabel="navigationPrevLabel"
+        :canAdvanceForward="canAdvanceForward"
+        :canAdvanceBackward="canAdvanceBackward"
+        @navigation-click="handleNavigation"
       />
     </slot>
 
     <slot name="pagination" v-if="paginationEnabled">
       <Pagination
-          :paginationPosition="paginationPosition"
-          :scrollPerPage="scrollPerPage"
-          :maxPaginationDotCount="maxPaginationDotCount"
-          :paginationPadding="paginationPadding"
-          :paginationSize="paginationSize"
-          :paginationActiveColor="paginationActiveColor"
-          :paginationColor="paginationColor"
-          :speed="speed"
-          :pageCount="pageCount"
-          :slideCount="slideCount"
-          :currentPage="currentPage"
-          @pagination-click="goToPage($event, 'pagination')"
+        :paginationPosition="paginationPosition"
+        :scrollPerPage="scrollPerPage"
+        :maxPaginationDotCount="maxPaginationDotCount"
+        :paginationPadding="paginationPadding"
+        :paginationSize="paginationSize"
+        :paginationActiveColor="paginationActiveColor"
+        :paginationColor="paginationColor"
+        :speed="speed"
+        :pageCount="pageCount"
+        :slideCount="slideCount"
+        :currentPage="currentPage"
+        @pagination-click="goToPage($event, 'pagination')"
       />
     </slot>
   </div>
@@ -146,9 +146,9 @@ export default {
       type: String,
       validator: function (value) {
         return (
-            ['ease', 'linear', 'ease-in', 'ease-out', 'ease-in-out'].indexOf(
-                value
-            ) !== -1 || value.includes('cubic-bezier')
+          ['ease', 'linear', 'ease-in', 'ease-out', 'ease-in-out'].indexOf(
+            value
+          ) !== -1 || value.includes('cubic-bezier')
         );
       },
       default: 'ease',
@@ -402,6 +402,13 @@ export default {
       type: Number,
       default: 0.4,
     },
+    /**
+     * Count slide when call goToPage
+     */
+    recountSlideWhenChangePage: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, ctx) {
     const browserWidth = ref(null);
@@ -444,12 +451,12 @@ export default {
       const breakpointArray = props.perPageCustom;
       const width = browserWidth.value;
       const breakpoints = breakpointArray.sort((a, b) =>
-          a[0] > b[0] ? -1 : 1
+        a[0] > b[0] ? -1 : 1
       );
       // Reduce the breakpoints to entries where the width is in range
       // The breakpoint arrays are formatted as [widthToMatch, numberOfSlides]
       const matches = breakpoints.filter(
-          (breakpoint) => width >= breakpoint[0]
+        (breakpoint) => width >= breakpoint[0]
       );
       // If there is a match, the result should return only
       // the slide count from the first matching breakpoint
@@ -475,8 +482,8 @@ export default {
      */
     const currentPerPage = computed(() => {
       return !props.perPageCustom || typeof window === 'undefined'
-          ? props.perPage
-          : breakpointSlidesPerPage.value;
+        ? props.perPage
+        : breakpointSlidesPerPage.value;
     });
     /**
      * The horizontal distance the inner wrapper is offset while navigating.
@@ -498,10 +505,10 @@ export default {
      */
     const maxOffset = computed(() => {
       const max = props.partialView
-          ? slideWidth.value *
-          (slideCount.value - currentPerPage.value - props.partialPercent) -
+        ? slideWidth.value *
+            (slideCount.value - currentPerPage.value - props.partialPercent) -
           props.spacePadding * props.spacePaddingMaxOffsetFactor
-          : slideWidth.value * (slideCount.value - currentPerPage.value) -
+        : slideWidth.value * (slideCount.value - currentPerPage.value) -
           props.spacePadding * props.spacePaddingMaxOffsetFactor;
       return Math.max(max, 0);
     });
@@ -511,9 +518,9 @@ export default {
      */
     const pageCount = computed(() => {
       return getPageCount(
-          props.scrollPerPage,
-          slideCount.value,
-          currentPerPage.value
+        props.scrollPerPage,
+        slideCount.value,
+        currentPerPage.value
       );
     });
     /**
@@ -523,8 +530,8 @@ export default {
     const slideWidth = computed(() => {
       const width = carouselWidth.value - props.spacePadding * 2;
       const perPage = props.partialView
-          ? currentPerPage.value + props.partialPercent
-          : currentPerPage.value;
+        ? currentPerPage.value + props.partialPercent
+        : currentPerPage.value;
       return width / perPage;
     });
     /**
@@ -544,7 +551,7 @@ export default {
       const transition = `${speed} ${props.easing} transform`;
       if (props.adjustableHeight) {
         return `${transition}, height ${speed} ${
-            props.adjustableHeightEasing || props.easing
+          props.adjustableHeightEasing || props.easing
         }`;
       }
       return transition;
@@ -556,8 +563,8 @@ export default {
 
     const getPageCount = (scrollPerPage, count, currentPerPage) => {
       return scrollPerPage
-          ? Math.ceil(count / currentPerPage)
-          : count - currentPerPage + 1;
+        ? Math.ceil(count / currentPerPage)
+        : count - currentPerPage + 1;
     };
     const pauseAutoplay = () => {
       if (autoplayInterval.value) {
@@ -568,8 +575,8 @@ export default {
     const startAutoplay = () => {
       if (props.autoplay) {
         autoplayInterval.value = setInterval(
-            autoplayAdvancePage,
-            props.autoplayTimeout
+          autoplayAdvancePage,
+          props.autoplayTimeout
         );
       }
     };
@@ -606,8 +613,8 @@ export default {
       if (direction && direction === 'backward' && canAdvanceBackward.value) {
         goToPage(getPreviousPage(), 'navigation');
       } else if (
-          (!direction || (direction && direction !== 'backward')) &&
-          canAdvanceForward.value
+        (!direction || (direction && direction !== 'backward')) &&
+        canAdvanceForward.value
       ) {
         goToPage(getNextPage(), 'navigation');
       }
@@ -629,9 +636,9 @@ export default {
      */
     const attachMutationObserver = () => {
       const MutationObserver =
-          window.MutationObserver ||
-          window.WebKitMutationObserver ||
-          window.MozMutationObserver;
+        window.MutationObserver ||
+        window.WebKitMutationObserver ||
+        window.MozMutationObserver;
       if (MutationObserver) {
         let config = {
           attributes: true,
@@ -653,7 +660,7 @@ export default {
         });
         if (vueConciseCarousel.value) {
           const carouselInnerElements = vueConciseCarousel.value.getElementsByClassName(
-              'VueCarousel-inner'
+            'VueCarousel-inner'
           );
           for (let i = 0; i < carouselInnerElements.length; i++) {
             mutationObserver.value.observe(carouselInnerElements[i], config);
@@ -689,7 +696,7 @@ export default {
     const getCarouselWidth = () => {
       if (vueConciseCarousel.value) {
         const elements = vueConciseCarousel.value.getElementsByClassName(
-            'VueCarousel-inner'
+          'VueCarousel-inner'
         );
         for (let i = 0; i < elements.length; i++) {
           const width = elements[i].getBoundingClientRect().width || 0;
@@ -710,15 +717,15 @@ export default {
       }
       const slideOffset = currentPerPage.value * (+currentPage.value + 1) - 1;
       const maxSlideHeight = [...Array(currentPerPage.value)]
-          .map((_, idx) => getSlide(slideOffset + idx))
-          .reduce(
-              (clientHeight, slide) =>
-                  Math.max(clientHeight, (slide && slide.clientHeight) || 0),
-              0
-          );
+        .map((_, idx) => getSlide(slideOffset + idx))
+        .reduce(
+          (clientHeight, slide) =>
+            Math.max(clientHeight, (slide && slide.clientHeight) || 0),
+          0
+        );
 
       currentHeight.value =
-          maxSlideHeight === 0 ? 'auto' : `${maxSlideHeight}px`;
+        maxSlideHeight === 0 ? 'auto' : `${maxSlideHeight}px`;
       return currentHeight.value;
     };
     /**
@@ -728,7 +735,7 @@ export default {
     const getSlideCount = () => {
       if (vueConciseCarousel.value) {
         const carouselInnerElements = vueConciseCarousel.value.querySelectorAll(
-            '.VueCarousel-slide:not(.VueCarousel-slide-adjust)'
+          '.VueCarousel-slide:not(.VueCarousel-slide-adjust)'
         );
         slotSlides.value = carouselInnerElements;
         slideCount.value = carouselInnerElements.length;
@@ -749,11 +756,14 @@ export default {
      * @param  {string|undefined} advanceType An optional value describing the type of page advance
      */
     const goToPage = (page, advanceType) => {
-      getSlideCount();
+      if (props.recountSlideWhenChangePage) {
+        getSlideCount();
+      }
+      
       const pageCount = getPageCount(
-          props.scrollPerPage,
-          slideCount.value || props.value,
-          currentPerPage.value
+        props.scrollPerPage,
+        slideCount.value || props.value,
+        currentPerPage.value
       );
       if (page >= 0 && page <= pageCount) {
         if (hasVueCarouselSlideAdjust.value && !isFinishSlideAdjust.value) {
@@ -776,20 +786,20 @@ export default {
             offset.value = 0;
           } else {
             offset.value = props.scrollPerPage
-                ? Math.min(
-                    slideWidth.value *
+              ? Math.min(
+                  slideWidth.value *
                     (currentPerPage.value * page - props.partialPercent / 2),
-                    maxOffset.value
+                  maxOffset.value
                 )
-                : slideWidth.value * (1 - props.partialPercent) * page;
+              : slideWidth.value * (1 - props.partialPercent) * page;
           }
         } else {
           offset.value = props.scrollPerPage
-              ? Math.min(
-                  slideWidth.value * currentPerPage.value * page,
-                  maxOffset.value
+            ? Math.min(
+                slideWidth.value * currentPerPage.value * page,
+                maxOffset.value
               )
-              : slideWidth.value * page;
+            : slideWidth.value * page;
         }
 
         // restart autoplay if specified
@@ -819,9 +829,9 @@ export default {
 
       document.addEventListener(isTouch ? 'touchend' : 'mouseup', onEnd, true);
       document.addEventListener(
-          isTouch ? 'touchmove' : 'mousemove',
-          onDrag,
-          true
+        isTouch ? 'touchmove' : 'mousemove',
+        onDrag,
+        true
       );
 
       startTime.value = e.timeStamp;
@@ -846,12 +856,12 @@ export default {
       dragMomentum.value = deltaX / (e.timeStamp - startTime.value);
       // take care of the minSwipteDistance prop, if not 0 and delta is bigger than delta
       if (
-          props.minSwipeDistance !== 0 &&
-          Math.abs(deltaX) >= props.minSwipeDistance
+        props.minSwipeDistance !== 0 &&
+        Math.abs(deltaX) >= props.minSwipeDistance
       ) {
         const width = props.scrollPerPage
-            ? slideWidth.value * currentPerPage.value
-            : slideWidth.value;
+          ? slideWidth.value * currentPerPage.value
+          : slideWidth.value;
         dragOffset.value = dragOffset.value + Math.sign(deltaX) * (width / 2);
       }
       if (props.rtl) {
@@ -864,14 +874,14 @@ export default {
       render();
       // clear events listeners
       document.removeEventListener(
-          isTouch ? 'touchend' : 'mouseup',
-          onEnd,
-          true
+        isTouch ? 'touchend' : 'mouseup',
+        onEnd,
+        true
       );
       document.removeEventListener(
-          isTouch ? 'touchmove' : 'mousemove',
-          onDrag,
-          true
+        isTouch ? 'touchmove' : 'mousemove',
+        onDrag,
+        true
       );
     };
     /**
@@ -880,9 +890,9 @@ export default {
      */
     const onDrag = (e) => {
       if (
-          hasVueCarouselSlideAdjust.value &&
-          !isFinishSlideAdjust.value &&
-          currentPage.value > 0
+        hasVueCarouselSlideAdjust.value &&
+        !isFinishSlideAdjust.value &&
+        currentPage.value > 0
       ) {
         handleVueCarouselSlideAdjust();
         return;
@@ -908,13 +918,13 @@ export default {
           dragOffset.value = Math.sqrt(props.resistanceCoef * dragOffset.value);
         } else if (offset.value === maxOffset.value && dragOffset.value < 0) {
           dragOffset.value = -Math.sqrt(
-              -props.resistanceCoef * dragOffset.value
+            -props.resistanceCoef * dragOffset.value
           );
         }
       } else {
         if (nextOffset < 0) {
           dragOffset.value = -Math.sqrt(
-              -props.resistanceCoef * dragOffset.value
+            -props.resistanceCoef * dragOffset.value
           );
         } else if (nextOffset > maxOffset.value) {
           dragOffset.value = Math.sqrt(props.resistanceCoef * dragOffset.value);
@@ -935,27 +945,27 @@ export default {
       // add extra slides depending on the momemtum speed
       if (props.rtl) {
         offset.value -=
-            Math.max(
-                -currentPerPage.value + 1,
-                Math.min(Math.round(dragMomentum.value), currentPerPage.value - 1)
-            ) * slideWidth.value;
+          Math.max(
+            -currentPerPage.value + 1,
+            Math.min(Math.round(dragMomentum.value), currentPerPage.value - 1)
+          ) * slideWidth.value;
       } else {
         offset.value +=
-            Math.max(
-                -currentPerPage.value + 1,
-                Math.min(Math.round(dragMomentum.value), currentPerPage.value - 1)
-            ) * slideWidth.value;
+          Math.max(
+            -currentPerPage.value + 1,
+            Math.min(Math.round(dragMomentum.value), currentPerPage.value - 1)
+          ) * slideWidth.value;
       }
       // & snap the new offset on a slide or page if scrollPerPage
       const width = props.scrollPerPage
-          ? slideWidth.value * currentPerPage.value
-          : slideWidth.value;
+        ? slideWidth.value * currentPerPage.value
+        : slideWidth.value;
       // lock offset to either the nearest page, or to the last slide
       const lastFullPageOffset =
-          width * Math.floor(slideCount.value / (currentPerPage.value - 1));
+        width * Math.floor(slideCount.value / (currentPerPage.value - 1));
       const remainderOffset =
-          lastFullPageOffset +
-          slideWidth.value * (slideCount.value % currentPerPage.value);
+        lastFullPageOffset +
+        slideWidth.value * (slideCount.value % currentPerPage.value);
 
       if (offset.value > (lastFullPageOffset + remainderOffset) / 2) {
         offset.value = remainderOffset;
@@ -967,8 +977,8 @@ export default {
       offset.value = Math.max(0, Math.min(offset.value, maxOffset.value));
       // update the current page
       currentPage.value = props.scrollPerPage
-          ? Math.round(offset.value / slideWidth.value / currentPerPage.value)
-          : Math.round(offset.value / slideWidth.value);
+        ? Math.round(offset.value / slideWidth.value / currentPerPage.value)
+        : Math.round(offset.value / slideWidth.value);
     };
     /**
      * Re-compute the width of the carousel and its slides
@@ -1015,9 +1025,9 @@ export default {
     const hasVueCarouselSlideAdjust = computed(() => {
       if (vueConciseCarousel.value) {
         return (
-            vueConciseCarousel.value.querySelector(
-                '.VueCarousel-slide-adjust'
-            ) !== null
+          vueConciseCarousel.value.querySelector(
+            '.VueCarousel-slide-adjust'
+          ) !== null
         );
       }
 
@@ -1028,15 +1038,15 @@ export default {
       if (hasVueCarouselSlideAdjust.value && !isFinishSlideAdjust.value) {
         if (currentPage.value > 0) {
           offset.value = props.scrollPerPage
-              ? Math.min(
-                  slideWidth.value * currentPerPage.value * currentPage.value,
-                  maxOffset.value
+            ? Math.min(
+                slideWidth.value * currentPerPage.value * currentPage.value,
+                maxOffset.value
               )
-              : slideWidth.value * currentPage.value;
+            : slideWidth.value * currentPage.value;
         }
 
         const element = vueConciseCarousel.value.querySelector(
-            '.VueCarousel-slide-adjust'
+          '.VueCarousel-slide-adjust'
         );
         if (element) {
           element.parentElement.removeChild(element);
@@ -1066,38 +1076,38 @@ export default {
     });
 
     watch(
-        () => props.navigateTo,
-        (val) => {
-          // checking if val is an array, for arrays typeof returns object
-          if (typeof val === 'object') {
-            if (val[1] === false) {
-              // following code is to disable animation
-              dragging.value = true;
-              // clear dragging after refresh rate
-              setTimeout(() => {
-                dragging.value = false;
-              }, refreshRate.value);
-            }
-            nextTick(() => {
-              goToPage(val[0]);
-            });
-          } else {
-            nextTick(() => {
-              goToPage(val);
-            });
+      () => props.navigateTo,
+      (val) => {
+        // checking if val is an array, for arrays typeof returns object
+        if (typeof val === 'object') {
+          if (val[1] === false) {
+            // following code is to disable animation
+            dragging.value = true;
+            // clear dragging after refresh rate
+            setTimeout(() => {
+              dragging.value = false;
+            }, refreshRate.value);
           }
-        },
-        { immediate: true }
+          nextTick(() => {
+            goToPage(val[0]);
+          });
+        } else {
+          nextTick(() => {
+            goToPage(val);
+          });
+        }
+      },
+      { immediate: true }
     );
     watch(
-        () => props.autoplay,
-        (val) => {
-          if (val) {
-            restartAutoplay();
-          } else {
-            pauseAutoplay();
-          }
+      () => props.autoplay,
+      (val) => {
+        if (val) {
+          restartAutoplay();
+        } else {
+          pauseAutoplay();
         }
+      }
     );
     watch(currentPage, (val) => {
       // Not emit when refs not binding data
@@ -1128,9 +1138,9 @@ export default {
       // setup the start event only if touch device or mousedrag activated
       if ((isTouch && props.touchDrag) || props.mouseDrag) {
         vueCarouselWrapper.value.addEventListener(
-            isTouch ? 'touchstart' : 'mousedown',
-            onStart,
-            { passive: true }
+          isTouch ? 'touchstart' : 'mousedown',
+          onStart,
+          { passive: true }
         );
       }
 
@@ -1141,13 +1151,13 @@ export default {
 
       transitionstart.value = getTransitionStart();
       vueCarouselInner.value.addEventListener(
-          transitionstart.value,
-          handleTransitionStart
+        transitionstart.value,
+        handleTransitionStart
       );
       transitionend.value = getTransitionEnd();
       vueCarouselInner.value.addEventListener(
-          transitionend.value,
-          handleTransitionEnd
+        transitionend.value,
+        handleTransitionEnd
       );
 
       ctx.emit('mounted');
@@ -1165,12 +1175,12 @@ export default {
       detachResizeObserver();
       if (props.autoplayHoverPause) {
         vueConciseCarousel.value.removeEventListener(
-            'mouseenter',
-            pauseAutoplay
+          'mouseenter',
+          pauseAutoplay
         );
         vueConciseCarousel.value.removeEventListener(
-            'mouseleave',
-            startAutoplay
+          'mouseleave',
+          startAutoplay
         );
       }
 
@@ -1179,17 +1189,17 @@ export default {
       }
       window.removeEventListener('resize', getBrowserWidth);
       vueCarouselInner.value.removeEventListener(
-          transitionstart.value,
-          handleTransitionStart
+        transitionstart.value,
+        handleTransitionStart
       );
       vueCarouselInner.value.removeEventListener(
-          transitionend.value,
-          handleTransitionEnd
+        transitionend.value,
+        handleTransitionEnd
       );
       vueCarouselWrapper.value.removeEventListener(
-          isTouch ? 'touchstart' : 'mousedown',
-          onStart,
-          true
+        isTouch ? 'touchstart' : 'mousedown',
+        onStart,
+        true
       );
     });
 
