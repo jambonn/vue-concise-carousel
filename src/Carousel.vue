@@ -1214,7 +1214,7 @@ export default {
       canAdvanceBackward,
       restartAutoplay,
       pauseAutoplay,
-      computeCarouselWidth,
+      getSlideCount,
       computeCarouselHeight,
       getCarouselHeight,
       handleNavigation,
