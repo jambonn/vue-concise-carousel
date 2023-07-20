@@ -2,9 +2,6 @@
 > Vue Concise Carousel is SSR and CSR friendly.
 > An upgraded version from [vue-carousel](https://github.com/SSENSE/vue-carousel)
 
-Vue 3 support is almost here with the vue-concise-carousel 2 rewrite. Check out the [next](https://github.com/jambonn/vue-concise-carousel/tree/next) branch to see the latest progress.
-
-**[Full examples](https://jambonn.github.io/vue-concise-carousel/#example-full)**
 
 ## Table of Contents
 - [Installation](#installation)
@@ -19,13 +16,13 @@ Vue 3 support is almost here with the vue-concise-carousel 2 rewrite. Check out 
 ## Installation
 
 ``` bash
-npm install @jambonn/vue-concise-carousel@next
+npm install @shopbase-theme/vue-concise-carousel@next
 ```
 
 or if you prefer yarn
 
 ``` bash
-yarn add @jambonn/vue-concise-carousel@next
+yarn add @shopbase-theme/vue-concise-carousel@next
 ```
 
 ## Usage
@@ -36,8 +33,8 @@ You may install Vue Concise Carousel globally:
 
 ``` js
 import Vue from 'vue';
-import { Carousel, Slide } from '@jambonn/vue-concise-carousel';
-import '@jambonn/vue-concise-carousel/lib/vue-concise-carousel.css'
+import { Carousel, Slide } from '@shopbase-theme/vue-concise-carousel';
+import '@shopbase-theme/vue-concise-carousel/lib/vue-concise-carousel.css'
 
 Vue.component('carousel', Carousel);
 Vue.component('slide', Slide);
@@ -49,8 +46,8 @@ This will make **&lt;carousel&gt;** and **&lt;slide&gt;** available to all compo
 Include the carousel directly into your component using import:
 
 ``` js
-import { Carousel, Slide } from '@jambonn/vue-concise-carousel';
-import '@jambonn/vue-concise-carousel/lib/vue-concise-carousel.css'
+import { Carousel, Slide } from '@shopbase-theme/vue-concise-carousel';
+import '@shopbase-theme/vue-concise-carousel/lib/vue-concise-carousel.css'
 
 export default {
   ...
