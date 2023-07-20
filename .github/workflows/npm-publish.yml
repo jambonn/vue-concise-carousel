@@ -3,7 +3,10 @@
 
 name: Publish Package
 
-on: workflow_dispatch
+on:
+  pull_request:
+    branches:
+    - ocg
 
 jobs:
   build:
