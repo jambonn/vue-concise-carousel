@@ -16,13 +16,13 @@
 ## Installation
 
 ``` bash
-npm install @shopbase-theme/vue-concise-carousel@next
+npm install @shopbase-theme/vue-concise-carousel
 ```
 
 or if you prefer yarn
 
 ``` bash
-yarn add @shopbase-theme/vue-concise-carousel@next
+yarn add @shopbase-theme/vue-concise-carousel
 ```
 
 ## Usage
