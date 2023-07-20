@@ -388,6 +388,34 @@ export default {
       type: Boolean,
       default: false,
     },
+    /**
+     * Flag to show slide partial view
+     */
+    partialView: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * Percent width of slide when active partial view
+     */
+    partialPercent: {
+      type: Number,
+      default: 0.4,
+    },
+    /**
+     * Count slide when call goToPage
+     */
+    recountSlideWhenChangePage: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * Avoid slide width change a lot cause render error
+     */
+    debounceComputeWidth: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, ctx) {
     const browserWidth = ref(null);
@@ -483,11 +511,13 @@ export default {
      * @return {Number}
      */
     const maxOffset = computed(() => {
-      return Math.max(
-        slideWidth.value * (slideCount.value - currentPerPage.value) -
-          props.spacePadding * props.spacePaddingMaxOffsetFactor,
-        0
-      );
+      const max = props.partialView
+        ? slideWidth.value *
+            (slideCount.value - currentPerPage.value - props.partialPercent) -
+          props.spacePadding * props.spacePaddingMaxOffsetFactor
+        : slideWidth.value * (slideCount.value - currentPerPage.value) -
+          props.spacePadding * props.spacePaddingMaxOffsetFactor;
+      return Math.max(max, 0);
     });
     /**
      * Calculate the number of pages of slides
@@ -506,7 +536,9 @@ export default {
      */
     const slideWidth = computed(() => {
       const width = carouselWidth.value - props.spacePadding * 2;
-      const perPage = currentPerPage.value;
+      const perPage = props.partialView
+        ? currentPerPage.value + props.partialPercent
+        : currentPerPage.value;
       return width / perPage;
     });
     /**
@@ -731,6 +763,10 @@ export default {
      * @param  {string|undefined} advanceType An optional value describing the type of page advance
      */
     const goToPage = (page, advanceType) => {
+      if (props.recountSlideWhenChangePage) {
+        getSlideCount();
+      }
+
       const pageCount = getPageCount(
         props.scrollPerPage,
         slideCount.value || props.value,
@@ -752,12 +788,27 @@ export default {
           }, refreshRate.value);
         }
 
-        offset.value = props.scrollPerPage
-          ? Math.min(
-              slideWidth.value * currentPerPage.value * page,
-              maxOffset.value
-            )
-          : slideWidth.value * page;
+        if (props.partialView) {
+          if (page === 0) {
+            offset.value = 0;
+          } else {
+            offset.value = props.scrollPerPage
+              ? Math.min(
+                  slideWidth.value *
+                    (currentPerPage.value * page - props.partialPercent / 2),
+                  maxOffset.value
+                )
+              : slideWidth.value * (1 - props.partialPercent) * page;
+          }
+        } else {
+          offset.value = props.scrollPerPage
+            ? Math.min(
+                slideWidth.value * currentPerPage.value * page,
+                maxOffset.value
+              )
+            : slideWidth.value * page;
+        }
+
         // restart autoplay if specified
         if (props.autoplay && !props.autoplayHoverPause) {
           restartAutoplay();
@@ -939,12 +990,15 @@ export default {
     /**
      * Re-compute the width of the carousel and its slides
      */
-    const computeCarouselWidth = () => {
-      getSlideCount();
-      getBrowserWidth();
-      getCarouselWidth();
-      setCurrentPageInBounds();
-    };
+    const computeCarouselWidth = debounce(
+      () => {
+        getSlideCount();
+        getBrowserWidth();
+        getCarouselWidth();
+        setCurrentPageInBounds();
+      },
+      props.debounceComputeWidth ? 300 : 0
+    );
     /**
      * Re-compute the height of the carousel and its slides
      */
