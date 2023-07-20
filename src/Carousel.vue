@@ -409,6 +409,13 @@ export default {
       type: Boolean,
       default: false,
     },
+    /**
+     * Avoid slide width change a lot cause render error
+     */
+    debounceComputeWidth: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, ctx) {
     const browserWidth = ref(null);
@@ -759,7 +766,7 @@ export default {
       if (props.recountSlideWhenChangePage) {
         getSlideCount();
       }
-      
+
       const pageCount = getPageCount(
         props.scrollPerPage,
         slideCount.value || props.value,
@@ -983,12 +990,15 @@ export default {
     /**
      * Re-compute the width of the carousel and its slides
      */
-    const computeCarouselWidth = () => {
-      getSlideCount();
-      getBrowserWidth();
-      getCarouselWidth();
-      setCurrentPageInBounds();
-    };
+    const computeCarouselWidth = debounce(
+      () => {
+        getSlideCount();
+        getBrowserWidth();
+        getCarouselWidth();
+        setCurrentPageInBounds();
+      },
+      props.debounceComputeWidth ? 300 : 0
+    );
     /**
      * Re-compute the height of the carousel and its slides
      */
