@@ -4,7 +4,12 @@
 name: Publish Package
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+    - ocg
+  pull_request:
+    branches:
+    - ocg
 
 jobs:
   build:
