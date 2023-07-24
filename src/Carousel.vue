@@ -949,6 +949,9 @@ export default {
       }, refreshRate.value);
     };
     const render = () => {
+      if (slideWidth.value === 0) {
+        return;
+      }
       // add extra slides depending on the momemtum speed
       if (props.rtl) {
         offset.value -=
@@ -990,22 +993,15 @@ export default {
     /**
      * Re-compute the width of the carousel and its slides
      */
-    const computeCarouselWidth = () => {
-      if (!props.debounceComputeWidth) {
+    const computeCarouselWidth = debounce(
+      () => {
         getSlideCount();
         getBrowserWidth();
         getCarouselWidth();
         setCurrentPageInBounds();
-        return;
-      }
-
-      debounce(() => {
-        getSlideCount();
-        getBrowserWidth();
-        getCarouselWidth();
-        setCurrentPageInBounds();
-      }, 300);
-    };
+      },
+      props.debounceComputeWidth ? 300 : 0
+    );
     /**
      * Re-compute the height of the carousel and its slides
      */
