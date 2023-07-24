@@ -990,15 +990,22 @@ export default {
     /**
      * Re-compute the width of the carousel and its slides
      */
-    const computeCarouselWidth = debounce(
-      () => {
+    const computeCarouselWidth = () => {
+      if (!props.debounceComputeWidth) {
         getSlideCount();
         getBrowserWidth();
         getCarouselWidth();
         setCurrentPageInBounds();
-      },
-      props.debounceComputeWidth ? 300 : 0
-    );
+        return;
+      }
+
+      debounce(() => {
+        getSlideCount();
+        getBrowserWidth();
+        getCarouselWidth();
+        setCurrentPageInBounds();
+      }, 300);
+    };
     /**
      * Re-compute the height of the carousel and its slides
      */
