@@ -949,6 +949,9 @@ export default {
       }, refreshRate.value);
     };
     const render = () => {
+      if (slideWidth.value === 0) {
+        return;
+      }
       // add extra slides depending on the momemtum speed
       if (props.rtl) {
         offset.value -=
