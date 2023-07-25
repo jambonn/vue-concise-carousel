@@ -993,15 +993,19 @@ export default {
     /**
      * Re-compute the width of the carousel and its slides
      */
-    const computeCarouselWidth = debounce(
-      () => {
-        getSlideCount();
-        getBrowserWidth();
-        getCarouselWidth();
-        setCurrentPageInBounds();
-      },
-      props.debounceComputeWidth ? 300 : 0
-    );
+    const computeCarouselWidth = props.debounceComputeWidth
+      ? debounce(() => {
+          getSlideCount();
+          getBrowserWidth();
+          getCarouselWidth();
+          setCurrentPageInBounds();
+        }, 300)
+      : () => {
+          getSlideCount();
+          getBrowserWidth();
+          getCarouselWidth();
+          setCurrentPageInBounds();
+        };
     /**
      * Re-compute the height of the carousel and its slides
      */
