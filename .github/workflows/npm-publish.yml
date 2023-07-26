@@ -24,7 +24,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: lib
-          path: ~/lib
+          path: ./lib
 
   publish-npm:
     needs: build
@@ -34,7 +34,6 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: lib
-          path: ~/
       - uses: actions/setup-node@v3
         with:
           node-version: 16
