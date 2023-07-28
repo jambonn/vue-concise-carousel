@@ -1031,7 +1031,8 @@ export default {
       adjustableHeight: props.adjustableHeight,
     });
 
-    onMounted(() => {
+    onMounted(async () => {
+      await nextTick();
       startAutoplay();
 
       if (props.autoplayHoverPause) {
@@ -1078,7 +1079,9 @@ export default {
       }
     });
     onBeforeUpdate(() => {
-      computeCarouselWidth();
+      nextTick(() => {
+        computeCarouselWidth();
+      });
     });
     onBeforeUnmount(() => {
       detachMutationObserver();
