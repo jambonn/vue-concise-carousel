@@ -151,7 +151,11 @@ const main = async () => {
     step('\nPushing to GitHub...');
     await run('git', ['tag', `v${targetVersion}`]);
     await run('git', ['push', 'origin', `refs/tags/v${targetVersion}`]);
-    await run('git', ['push']);
+    await run('git', [
+      'push',
+      'origin',
+      targetVersion === 'next' ? 'next' : 'master',
+    ]);
 
     console.log();
   }
