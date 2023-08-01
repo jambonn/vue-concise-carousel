@@ -4,6 +4,7 @@
 .eslintrc
 .idea
 .prettierrc
+.npmrc
 
 src/scss/
 node_modules/

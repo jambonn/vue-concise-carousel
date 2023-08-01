@@ -762,7 +762,7 @@ export default {
      * @param  {Number} page The value of the new page number
      * @param  {string|undefined} advanceType An optional value describing the type of page advance
      */
-    const goToPage = (page, advanceType) => {
+    const goToPage = (page, advanceType = '') => {
       if (props.recountSlideWhenChangePage) {
         getSlideCount();
       }
@@ -1089,53 +1089,8 @@ export default {
       adjustableHeight: props.adjustableHeight,
     });
 
-    watch(
-      () => props.navigateTo,
-      (val) => {
-        // checking if val is an array, for arrays typeof returns object
-        if (typeof val === 'object') {
-          if (val[1] === false) {
-            // following code is to disable animation
-            dragging.value = true;
-            // clear dragging after refresh rate
-            setTimeout(() => {
-              dragging.value = false;
-            }, refreshRate.value);
-          }
-          nextTick(() => {
-            goToPage(val[0]);
-          });
-        } else {
-          nextTick(() => {
-            goToPage(val);
-          });
-        }
-      },
-      { immediate: true }
-    );
-    watch(
-      () => props.autoplay,
-      (val) => {
-        if (val) {
-          restartAutoplay();
-        } else {
-          pauseAutoplay();
-        }
-      }
-    );
-    watch(currentPage, (val) => {
-      // Not emit when refs not binding data
-      if (!vueConciseCarousel.value) {
-        return;
-      }
-
-      ctx.emit('page-change', val);
-      ctx.emit('input', val);
-      if (currentPage.value !== props.navigateTo) {
-        handleVueCarouselSlideAdjust();
-      }
-    });
-    onMounted(() => {
+    onMounted(async () => {
+      await nextTick();
       startAutoplay();
 
       if (props.autoplayHoverPause) {
@@ -1182,7 +1137,9 @@ export default {
       }
     });
     onBeforeUpdate(() => {
-      computeCarouselWidth();
+      nextTick(() => {
+        computeCarouselWidth();
+      });
     });
     onBeforeUnmount(() => {
       detachMutationObserver();
@@ -1215,6 +1172,62 @@ export default {
         onStart,
         true
       );
+    });
+
+    watch(
+      () => props.value,
+      (val) => {
+        if (val !== currentPage.value) {
+          goToPage(val);
+          render();
+        }
+      }
+    );
+    watch(
+      () => props.navigateTo,
+      (val) => {
+        // checking if val is an array, for arrays typeof returns object
+        if (typeof val === 'object') {
+          if (val[1] === false) {
+            // following code is to disable animation
+            dragging.value = true;
+            // clear dragging after refresh rate
+            setTimeout(() => {
+              dragging.value = false;
+            }, refreshRate.value);
+          }
+          nextTick(() => {
+            goToPage(val[0]);
+          });
+        } else {
+          nextTick(() => {
+            goToPage(val);
+          });
+        }
+      },
+      { immediate: true }
+    );
+    watch(
+      () => props.autoplay,
+      (val) => {
+        if (val) {
+          restartAutoplay();
+        } else {
+          pauseAutoplay();
+        }
+      }
+    );
+    watch(currentPage, (val) => {
+      // Not emit when refs not binding data
+      if (!vueConciseCarousel.value) {
+        return;
+      }
+
+      ctx.emit('page-change', val);
+      ctx.emit('input', val);
+      if (currentPage.value !== props.navigateTo) {
+        handleVueCarouselSlideAdjust();
+      }
     });
 
     return {
