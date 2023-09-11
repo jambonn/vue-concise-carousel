@@ -16,10 +16,10 @@
         :style="{
           transform: `translate(${currentOffset}px, 0)`,
           transition: dragging ? 'none' : transitionStyle,
-          'ms-flex-preferred-size': `${slideWidth}px`,
-          'webkit-flex-basis': `${slideWidth}px`,
-          'flex-basis': `${slideWidth}px`,
-          visibility: slideWidth ? 'visible' : 'hidden',
+          'ms-flex-preferred-size': flexBasicWidth,
+          'webkit-flex-basis': flexBasicWidth,
+          'flex-basis': flexBasicWidth,
+          visibility: forceShow ? 'visible' : slideWidth ? 'visible' : 'hidden',
           height: `${currentHeight}`,
           'padding-left': `${padding}px`,
           'padding-right': `${padding}px`,
@@ -416,6 +416,13 @@ export default {
       type: Boolean,
       default: false,
     },
+    /**
+     * Force show slide with full width
+     */
+    forceShow: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, ctx) {
     const browserWidth = ref(null);
@@ -566,6 +573,14 @@ export default {
     const padding = computed(() => {
       const padding = props.spacePadding;
       return padding > 0 ? padding : false;
+    });
+
+    const flexBasicWidth = computed(() => {
+      if (props.forceShow) {
+        return 100 / props.perPage + '%';
+      }
+
+      return `${slideWidth.value}px`;
     });
 
     const getPageCount = (scrollPerPage, count, currentPerPage) => {
@@ -1250,6 +1265,7 @@ export default {
       currentPage,
       canAdvanceForward,
       canAdvanceBackward,
+      flexBasicWidth,
       restartAutoplay,
       pauseAutoplay,
       computeCarouselHeight,
