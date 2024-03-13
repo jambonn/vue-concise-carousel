@@ -576,8 +576,11 @@ export default {
     });
 
     const flexBasicWidth = computed(() => {
-      if (props.forceShow) {
-        return 100 / props.perPage + '%';
+      const perPage = props.partialView
+          ? currentPerPage.value + props.partialPercent
+          : currentPerPage.value;
+      if (!slideWidth.value || props.forceShow) {
+        return `${100 / perPage}%`;
       }
 
       return `${slideWidth.value}px`;
