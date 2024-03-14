@@ -1226,9 +1226,9 @@ export default {
       { immediate: true }
     );
     watch(
-      () => props.autoplay,
-      (val) => {
-        if (val) {
+      () => [props.autoplay, props.autoplayTimeout],
+      ([newAutoPlay]) => {
+        if (newAutoPlay) {
           restartAutoplay();
         } else {
           pauseAutoplay();
