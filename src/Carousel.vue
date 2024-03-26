@@ -29,7 +29,10 @@
       </div>
     </div>
 
-    <slot name="navigation" v-if="navigationEnabled && isNavigationRequired">
+    <slot
+        v-if="navigationEnabled && isNavigationRequired && navigationPosition !== 'bottom'"
+        name="navigation"
+    >
       <Navigation
         :clickTargetSize="navigationClickTargetSize"
         :nextLabel="navigationNextLabel"
@@ -40,22 +43,31 @@
       />
     </slot>
 
-    <slot name="pagination" v-if="paginationEnabled">
-      <Pagination
-        :paginationPosition="paginationPosition"
-        :scrollPerPage="scrollPerPage"
-        :maxPaginationDotCount="maxPaginationDotCount"
-        :paginationPadding="paginationPadding"
-        :paginationSize="paginationSize"
-        :paginationActiveColor="paginationActiveColor"
-        :paginationColor="paginationColor"
-        :speed="speed"
-        :pageCount="pageCount"
-        :slideCount="slideCount"
-        :currentPage="currentPage"
-        @pagination-click="goToPage($event, 'pagination')"
-      />
-    </slot>
+    <div
+        class="VueCarousel-bottom"
+        :style="{ position: 'relative', width: 'fit-content', margin: 'auto' }"
+    >
+      <slot name="pagination" v-if="paginationEnabled">
+        <Pagination
+          :paginationPosition="paginationPosition"
+          :scrollPerPage="scrollPerPage"
+          :maxPaginationDotCount="maxPaginationDotCount"
+          :paginationPadding="paginationPadding"
+          :paginationSize="paginationSize"
+          :paginationActiveColor="paginationActiveColor"
+          :paginationColor="paginationColor"
+          :speed="speed"
+          :pageCount="pageCount"
+          :slideCount="slideCount"
+          :currentPage="currentPage"
+          @pagination-click="goToPage($event, 'pagination')"
+        />
+      </slot>
+      <slot
+          v-if="navigationEnabled && isNavigationRequired && navigationPosition === 'bottom'"
+          name="navigation"
+      ></slot>
+    </div>
   </div>
 </template>
 
@@ -422,6 +434,13 @@ export default {
     forceShow: {
       type: Boolean,
       default: false,
+    },
+    /**
+     * Navigation position
+     */
+    navigationPosition: {
+      type: String,
+      default: '',
     },
   },
   setup(props, ctx) {

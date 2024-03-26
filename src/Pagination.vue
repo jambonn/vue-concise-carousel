@@ -7,6 +7,7 @@
         [`VueCarousel-pagination--${paginationPositionModifierName}`]: paginationPositionModifierName,
       },
     ]"
+    :style="containerStyle"
   >
     <div
       class="VueCarousel-dot-container"
@@ -97,18 +98,24 @@ export default {
     const paginationCount = computed(() => {
       return props.scrollPerPage ? props.pageCount : props.slideCount || 0;
     });
+    const containerWidth = computed(() => {
+      const doublePadding = props.paginationPadding * 2;
+      return props.maxPaginationDotCount * (props.paginationSize + doublePadding);
+    });
+    const containerStyle = computed(() => {
+      return {
+        width: `${containerWidth.value}px`,
+      };
+    });
     const dotContainerStyle = computed(() => {
       if (props.maxPaginationDotCount === -1)
         return {
           'margin-top': `${props.paginationPadding * 2}px`,
         };
-      const doublePadding = props.paginationPadding * 2;
-      const containerWidth =
-        props.maxPaginationDotCount * (props.paginationSize + doublePadding);
       return {
         'margin-top': `${props.paginationPadding * 2}px`,
         overflow: 'hidden',
-        width: `${containerWidth}px`,
+        width: `${containerWidth.value}px`,
         margin: '0 auto',
         'white-space': 'nowrap',
       };
@@ -176,6 +183,7 @@ export default {
       paginationPositionModifierName,
       paginationCount,
       dotContainerStyle,
+      containerStyle,
       goToPage,
       isCurrentDot,
       dotStyle,
